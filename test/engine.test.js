@@ -1,5 +1,5 @@
 'use strict';
-// Behavioural tests for the planner engine. Run: node --test test/
+// Behavioural tests for the planner engine. Run: node --test test/engine.test.js
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('path');

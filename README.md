@@ -134,7 +134,7 @@ All formats, what each contains and the reasoning behind the routing choices: [d
 The engine is covered by behavioural tests and every AWS example is validated against a real Terraform. Output from the release run on 2026-10-12 (Node 22.23.2, Terraform 1.16.2, AWS provider 6.x):
 
 ```console
-$ node --test test/
+$ node --test test/engine.test.js
 ok 1 - ip helpers round-trip and reject bad input
 ok 2 - hostsToPrefix adds growth headroom and the reserved addresses
 ok 3 - every preset packs without overlap, on aligned boundaries, inside the network
@@ -180,7 +180,7 @@ The planner's Teach-me mode links these, and they are the best place to start if
 git clone https://github.com/rahulwagh/vpc-subnet-planner.git
 cd vpc-subnet-planner
 node scripts/serve.js                # http://localhost:8080/
-node --test test/                    # engine tests
+node --test test/engine.test.js      # engine tests (or: npm test)
 node scripts/generate-examples.js    # regenerate examples/ after an engine change
 ```
 

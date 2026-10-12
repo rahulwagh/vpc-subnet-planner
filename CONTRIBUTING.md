@@ -9,7 +9,7 @@ Bug reports and pull requests are welcome. The whole tool is one file, so change
 3. **Tests first.** Add or adjust a case in `test/engine.test.js` for any engine change, then run:
 
    ```bash
-   node --test test/
+   node --test test/engine.test.js     # or: npm test
    node scripts/generate-examples.js   # commit the regenerated examples/
    ```
 
