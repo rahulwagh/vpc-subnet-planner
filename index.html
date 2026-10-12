@@ -81,7 +81,8 @@ input.bad{border-color:var(--red)}
 .tier{display:grid;grid-template-columns:14px 1fr 28px;gap:6px 8px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);margin-bottom:8px}
 .tier .sw{width:12px;height:34px;border-radius:4px;grid-row:1/3}
 .tier input,.tier select{padding:7px 8px;border-radius:8px;font-size:.84rem;min-width:0}
-.tier .del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;line-height:1;grid-row:1/3}
+.tier>input{grid-column:2;grid-row:1}
+.tier .del{border:0;background:transparent;color:var(--muted);cursor:pointer;font-size:1.1rem;line-height:1;grid-row:1/3;grid-column:3}
 .tier .del:hover{color:var(--red)}
 .tier .ctl{grid-column:2;display:grid;grid-template-columns:1fr 1fr 92px;gap:6px}
 .tier .ctl .val{display:flex;align-items:center;gap:3px}
@@ -149,7 +150,7 @@ pre.code{margin:0;background:var(--code);color:var(--code-ink);padding:16px 18px
 .teach{display:none;border-left:4px solid var(--violet);background:color-mix(in srgb,var(--violet) 8%,var(--paper));padding:10px 14px;border-radius:0 10px 10px 0;font-size:.85rem;margin-top:12px}
 html[data-teach="1"] .teach{display:block}
 .teach b{color:var(--violet)}
-.vid{margin-top:10px;position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer}
+.vid{margin-top:10px;position:relative;border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;cursor:pointer;max-width:420px}
 .vid img{width:100%;height:100%;object-fit:cover;opacity:.85}
 .vid .play{position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-weight:700;font-size:.9rem;text-shadow:0 2px 10px rgba(0,0,0,.6)}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -162,7 +163,91 @@ html[data-teach="1"] .teach{display:block}
 .overlap{font-size:.82rem}
 .overlap .hit{color:var(--red);font-weight:600}
 .overlap .okk{color:var(--green);font-weight:600}
-@media print{.top .actions,.left,.exbar,.tabs,.foot,.btn{display:none!important}.grid{grid-template-columns:1fr}body{background:#fff}.card{box-shadow:none;break-inside:avoid}}
+/* ===== guided mode: stepper, step cards, cloud cards, blueprint ===== */
+.stepbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0 0;flex-wrap:wrap}
+.stepper{list-style:none;margin:0;padding:0;display:flex;gap:6px;flex-wrap:wrap}
+.stepper li{display:flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;border:1px solid var(--line);border-radius:999px;background:var(--paper);font-size:.8rem;color:var(--muted);cursor:pointer;transition:.15s;max-width:260px}
+.stepper li .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.72rem;background:var(--haze);color:var(--muted);flex-shrink:0}
+.stepper li.done .n{background:var(--green);color:#fff}
+.stepper li.active{border-color:var(--blue);color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 18%,transparent)}
+.stepper li.active .n{background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff}
+.stepper li.todo{opacity:.65;cursor:default}
+.stepper li .s{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stepper li .s b{color:var(--ink);font-weight:600}
+.stepper li.skip{display:none}
+body:not(.guided) .stepbar{display:none}
+body.guided .grid{grid-template-columns:1fr;gap:18px}
+body.guided .step{display:none}
+body.guided .step.active{display:block;max-width:900px;margin:0 auto;width:100%;animation:stepIn .3s ease both}
+body.guided .result{display:none}
+body.guided.final .result{display:block}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.step .hd .num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--violet));color:#fff;font-size:.8rem;margin-right:6px;vertical-align:-3px}
+body:not(.guided) .step .nav,body:not(.guided) .stepof{display:none}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:8px;padding-top:6px;border-top:1px solid var(--line);margin-top:4px}
+.clouds{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.clouds button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer;transition:.15s}
+.clouds button:hover{border-color:var(--blue)}
+.clouds button.on{border-color:var(--blue);background:color-mix(in srgb,var(--blue) 8%,var(--paper));box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 18%,transparent)}
+.clouds b{color:var(--ink);font-size:.95rem}
+.clouds small{color:var(--muted);font-size:.74rem;line-height:1.35}
+.clouds .logo{display:flex;align-items:center;height:34px;margin-bottom:6px}
+.clouds .logo svg{height:100%;width:auto;max-width:150px;display:block}
+.clouds .lg-aws svg{height:30px}.clouds .lg-azure svg{height:32px}.clouds .lg-gcp svg{height:24px}.clouds .lg-generic svg{height:32px}
+html[data-theme="dark"] .logo [data-ink]{fill:#e6e9f2}
+html[data-theme="dark"] .logo [data-stroke]{stroke:#9aa3b8}
+body:not(.guided) .clouds{grid-template-columns:repeat(4,1fr);gap:6px}
+body:not(.guided) .clouds button{padding:8px;align-items:center;text-align:center}
+body:not(.guided) .clouds small{display:none}
+body:not(.guided) .clouds .logo{height:24px;margin-bottom:2px}
+body:not(.guided) .clouds .lg-aws svg{height:20px}body:not(.guided) .clouds .lg-azure svg{height:22px}body:not(.guided) .clouds .lg-gcp svg{height:16px}body:not(.guided) .clouds .lg-generic svg{height:22px}
+body:not(.guided) .clouds b{font-size:.78rem}
+.presets .preset{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:9px 11px;border:1px dashed var(--line);border-radius:10px;background:transparent;cursor:pointer;color:var(--muted);flex:1 1 180px;transition:.15s}
+.presets .preset b{color:var(--ink);font-size:.84rem}
+.presets .preset small{font-size:.72rem;line-height:1.3}
+.presets .preset:hover{border-color:var(--blue)}
+.presets .preset.on{border:1px solid var(--blue);background:color-mix(in srgb,var(--blue) 8%,var(--paper))}
+.more summary{cursor:pointer;font-size:.86rem;font-weight:600;color:var(--ink)}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px}
+.summary .it{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 11px;font-size:.84rem}
+.summary .it small{display:block;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.4px}
+.summary .it b{color:var(--ink)}
+.summary .it a{font-size:.76rem;margin-left:6px}
+/* blueprint */
+.bp{width:100%;height:auto;display:block;margin:0 auto;font-family:Inter,sans-serif}
+.bp .frame{fill:none;stroke:var(--line);stroke-dasharray:6 5}
+.bp .vpc{fill:color-mix(in srgb,var(--blue) 4%,var(--paper));stroke:var(--blue);stroke-width:2}
+.bp .lane{fill:color-mix(in srgb,var(--ink) 3%,transparent);stroke:var(--line);stroke-dasharray:4 4}
+.bp .lane.future{stroke-dasharray:2 4;opacity:.6}
+.bp .sn{stroke-width:1.2;cursor:pointer;transition:filter .15s}
+.bp .sn:hover{filter:brightness(1.06)}
+.bp .future .sn{opacity:.45}
+.bp text{fill:var(--text);font-size:12px}
+.bp text.t{font-weight:700;fill:var(--ink)}
+.bp text.m{font-family:"JetBrains Mono",monospace;font-size:11px}
+.bp text.l{fill:var(--muted);font-size:11px;letter-spacing:.3px;text-transform:uppercase;font-weight:600}
+.bp text.s{fill:var(--muted);font-size:10px}
+.bp .badge{fill:var(--paper);stroke:var(--line)}
+.bp .ext{fill:var(--paper);stroke:var(--muted);stroke-dasharray:4 3}
+.bp .ext.hit{stroke:var(--red)}
+.bp .link{fill:none;stroke:var(--green);stroke-width:1.5}
+.bp .link.hit{stroke:var(--red);stroke-dasharray:5 4}
+.bp .free{fill:url(#bphatch);stroke:var(--line)}
+.bp .enter{animation:bpIn .5s cubic-bezier(.2,.8,.2,1) both;transform-box:fill-box;transform-origin:center}
+.bp .draw{stroke-dasharray:100;stroke-dashoffset:100;animation:bpDraw 1.1s ease-out forwards}
+.bp .fade{opacity:0;animation:bpFade .4s ease forwards}
+@keyframes bpIn{from{opacity:0;transform:translateY(8px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes bpDraw{to{stroke-dashoffset:0}}
+@keyframes bpFade{to{opacity:1}}
+.bpstats{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.bpstats span{font-size:.78rem;padding:4px 10px;border-radius:999px;background:var(--haze);border:1px solid var(--line);color:var(--muted)}
+.bpstats span b{color:var(--ink)}
+.bpstats span.score{border-color:var(--green);color:var(--green)}
+.bpstats span.score.low{border-color:var(--amber);color:var(--amber)}
+.bpstats span.score.bad{border-color:var(--red);color:var(--red)}
+.bp .empty{fill:var(--muted);font-size:13px}
+@media (max-width:640px){.clouds{grid-template-columns:1fr 1fr}.nav .btn{font-size:.8rem;padding:8px 10px}}
+@media print{.top .actions,.left,.stepbar,.nav,#bpCard .btn,.exbar,.tabs,.foot,.btn{display:none!important}.grid{grid-template-columns:1fr}body{background:#fff}.card{box-shadow:none;break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -186,21 +271,35 @@ html[data-teach="1"] .teach{display:block}
     <div class="sponsor" id="sponsor"></div>
   </section>
 
-  <div class="grid">
-    <!-- LEFT: inputs -->
-    <aside class="left stack">
-      <div class="card">
-        <div class="hd"><h2>1. Cloud and address space</h2></div>
+  <!-- Guided stepper (hidden in expert view) -->
+  <nav class="stepbar" id="stepbar" aria-label="Steps">
+    <ol class="stepper" id="stepper"></ol>
+    <button class="btn small" id="modeBtn" title="Show every control and result on one screen">Expert view</button>
+  </nav>
+
+  <div class="grid" id="layout">
+    <!-- LEFT: inputs, one step at a time in guided view -->
+    <aside class="left stack" id="inputs">
+      <div class="card step" data-step="1">
+        <div class="hd"><h2><span class="num">1</span> Where are you building?</h2><span class="hint stepof"></span></div>
+        <div class="bd stack">
+          <div class="clouds" id="cloudSeg">
+            <button data-v="aws" class="on"><span class="logo lg-aws"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 304 182"><g><path fill="#252F3E" data-ink="1" d="M86.4,66.4c0,3.7,0.4,6.7,1.1,8.9c0.8,2.2,1.8,4.6,3.2,7.2c0.5,0.8,0.7,1.6,0.7,2.3c0,1-0.6,2-1.9,3l-6.3,4.2 c-0.9,0.6-1.8,0.9-2.6,0.9c-1,0-2-0.5-3-1.4C76.2,90,75,88.4,74,86.8c-1-1.7-2-3.6-3.1-5.9c-7.8,9.2-17.6,13.8-29.4,13.8 c-8.4,0-15.1-2.4-20-7.2c-4.9-4.8-7.4-11.2-7.4-19.2c0-8.5,3-15.4,9.1-20.6c6.1-5.2,14.2-7.8,24.5-7.8c3.4,0,6.9,0.3,10.6,0.8 c3.7,0.5,7.5,1.3,11.5,2.2v-7.3c0-7.6-1.6-12.9-4.7-16c-3.2-3.1-8.6-4.6-16.3-4.6c-3.5,0-7.1,0.4-10.8,1.3c-3.7,0.9-7.3,2-10.8,3.4 c-1.6,0.7-2.8,1.1-3.5,1.3c-0.7,0.2-1.2,0.3-1.6,0.3c-1.4,0-2.1-1-2.1-3.1v-4.9c0-1.6,0.2-2.8,0.7-3.5c0.5-0.7,1.4-1.4,2.8-2.1 c3.5-1.8,7.7-3.3,12.6-4.5c4.9-1.3,10.1-1.9,15.6-1.9c11.9,0,20.6,2.7,26.2,8.1c5.5,5.4,8.3,13.6,8.3,24.6V66.4z M45.8,81.6 c3.3,0,6.7-0.6,10.3-1.8c3.6-1.2,6.8-3.4,9.5-6.4c1.6-1.9,2.8-4,3.4-6.4c0.6-2.4,1-5.3,1-8.7v-4.2c-2.9-0.7-6-1.3-9.2-1.7 c-3.2-0.4-6.3-0.6-9.4-0.6c-6.7,0-11.6,1.3-14.9,4c-3.3,2.7-4.9,6.5-4.9,11.5c0,4.7,1.2,8.2,3.7,10.6 C37.7,80.4,41.2,81.6,45.8,81.6z M126.1,92.4c-1.8,0-3-0.3-3.8-1c-0.8-0.6-1.5-2-2.1-3.9L96.7,10.2c-0.6-2-0.9-3.3-0.9-4 c0-1.6,0.8-2.5,2.4-2.5h9.8c1.9,0,3.2,0.3,3.9,1c0.8,0.6,1.4,2,2,3.9l16.8,66.2l15.6-66.2c0.5-2,1.1-3.3,1.9-3.9c0.8-0.6,2.2-1,4-1 h8c1.9,0,3.2,0.3,4,1c0.8,0.6,1.5,2,1.9,3.9l15.8,67l17.3-67c0.6-2,1.3-3.3,2-3.9c0.8-0.6,2.1-1,3.9-1h9.3c1.6,0,2.5,0.8,2.5,2.5 c0,0.5-0.1,1-0.2,1.6c-0.1,0.6-0.3,1.4-0.7,2.5l-24.1,77.3c-0.6,2-1.3,3.3-2.1,3.9c-0.8,0.6-2.1,1-3.8,1h-8.6c-1.9,0-3.2-0.3-4-1 c-0.8-0.7-1.5-2-1.9-4L156,23l-15.4,64.4c-0.5,2-1.1,3.3-1.9,4c-0.8,0.7-2.2,1-4,1H126.1z M254.6,95.1c-5.2,0-10.4-0.6-15.4-1.8 c-5-1.2-8.9-2.5-11.5-4c-1.6-0.9-2.7-1.9-3.1-2.8c-0.4-0.9-0.6-1.9-0.6-2.8v-5.1c0-2.1,0.8-3.1,2.3-3.1c0.6,0,1.2,0.1,1.8,0.3 c0.6,0.2,1.5,0.6,2.5,1c3.4,1.5,7.1,2.7,11,3.5c4,0.8,7.9,1.2,11.9,1.2c6.3,0,11.2-1.1,14.6-3.3c3.4-2.2,5.2-5.4,5.2-9.5 c0-2.8-0.9-5.1-2.7-7c-1.8-1.9-5.2-3.6-10.1-5.2L246,52c-7.3-2.3-12.7-5.7-16-10.2c-3.3-4.4-5-9.3-5-14.5c0-4.2,0.9-7.9,2.7-11.1 c1.8-3.2,4.2-6,7.2-8.2c3-2.3,6.4-4,10.4-5.2c4-1.2,8.2-1.7,12.6-1.7c2.2,0,4.5,0.1,6.7,0.4c2.3,0.3,4.4,0.7,6.5,1.1 c2,0.5,3.9,1,5.7,1.6c1.8,0.6,3.2,1.2,4.2,1.8c1.4,0.8,2.4,1.6,3,2.5c0.6,0.8,0.9,1.9,0.9,3.3v4.7c0,2.1-0.8,3.2-2.3,3.2 c-0.8,0-2.1-0.4-3.8-1.2c-5.7-2.6-12.1-3.9-19.2-3.9c-5.7,0-10.2,0.9-13.3,2.8c-3.1,1.9-4.7,4.8-4.7,8.9c0,2.8,1,5.2,3,7.1 c2,1.9,5.7,3.8,11,5.5l14.2,4.5c7.2,2.3,12.4,5.5,15.5,9.6c3.1,4.1,4.6,8.8,4.6,14c0,4.3-0.9,8.2-2.6,11.6 c-1.8,3.4-4.2,6.4-7.3,8.8c-3.1,2.5-6.8,4.3-11.1,5.6C264.4,94.4,259.7,95.1,254.6,95.1z"/><g><path fill="#FF9900" fill-rule="evenodd" clip-rule="evenodd" d="M273.5,143.7c-32.9,24.3-80.7,37.2-121.8,37.2c-57.6,0-109.5-21.3-148.7-56.7c-3.1-2.8-0.3-6.6,3.4-4.4 c42.4,24.6,94.7,39.5,148.8,39.5c36.5,0,76.6-7.6,113.5-23.2C274.2,133.6,278.9,139.7,273.5,143.7z"/><path fill="#FF9900" fill-rule="evenodd" clip-rule="evenodd" d="M287.2,128.1c-4.2-5.4-27.8-2.6-38.5-1.3c-3.2,0.4-3.7-2.4-0.8-4.5c18.8-13.2,49.7-9.4,53.3-5 c3.6,4.5-1,35.4-18.6,50.2c-2.7,2.3-5.3,1.1-4.1-1.9C282.5,155.7,291.4,133.4,287.2,128.1z"/></g></g></svg></span><b>AWS</b><small>VPC with zonal subnets · 5 reserved addresses · /16 to /28</small></button>
+            <button data-v="azure"><span class="logo lg-azure"><svg viewBox="0 0 96 96" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="e399c19f-b68f-429d-b176-18c2117ff73c" x1="-1032.172" x2="-1059.213" y1="145.312" y2="65.426" gradientTransform="matrix(1 0 0 -1 1075 158)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#114a8b"/><stop offset="1" stop-color="#0669bc"/></linearGradient><linearGradient id="ac2a6fc2-ca48-4327-9a3c-d4dcc3256e15" x1="-1023.725" x2="-1029.98" y1="108.083" y2="105.968" gradientTransform="matrix(1 0 0 -1 1075 158)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-opacity=".3"/><stop offset=".071" stop-opacity=".2"/><stop offset=".321" stop-opacity=".1"/><stop offset=".623" stop-opacity=".05"/><stop offset="1" stop-opacity="0"/></linearGradient><linearGradient id="a7fee970-a784-4bb1-af8d-63d18e5f7db9" x1="-1027.165" x2="-997.482" y1="147.642" y2="68.561" gradientTransform="matrix(1 0 0 -1 1075 158)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#3ccbf4"/><stop offset="1" stop-color="#2892df"/></linearGradient></defs><path fill="url(#e399c19f-b68f-429d-b176-18c2117ff73c)" d="M33.338 6.544h26.038l-27.03 80.087a4.152 4.152 0 0 1-3.933 2.824H8.149a4.145 4.145 0 0 1-3.928-5.47L29.404 9.368a4.152 4.152 0 0 1 3.934-2.825z"/><path fill="#0078d4" d="M71.175 60.261h-41.29a1.911 1.911 0 0 0-1.305 3.309l26.532 24.764a4.171 4.171 0 0 0 2.846 1.121h23.38z"/><path fill="url(#ac2a6fc2-ca48-4327-9a3c-d4dcc3256e15)" d="M33.338 6.544a4.118 4.118 0 0 0-3.943 2.879L4.252 83.917a4.14 4.14 0 0 0 3.908 5.538h20.787a4.443 4.443 0 0 0 3.41-2.9l5.014-14.777 17.91 16.705a4.237 4.237 0 0 0 2.666.972H81.24L71.024 60.261l-29.781.007L59.47 6.544z"/><path fill="url(#a7fee970-a784-4bb1-af8d-63d18e5f7db9)" d="M66.595 9.364a4.145 4.145 0 0 0-3.928-2.82H33.648a4.146 4.146 0 0 1 3.928 2.82l25.184 74.62a4.146 4.146 0 0 1-3.928 5.472h29.02a4.146 4.146 0 0 0 3.927-5.472z"/></svg></span><b>Azure</b><small>VNet, subnets span all zones · 5 reserved · /29 smallest</small></button>
+            <button data-v="gcp"><span class="logo lg-gcp"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 181 28"><path fill="#ea4335" d="M21.85,7.41l1,0,2.85-2.85.14-1.21A12.81,12.81,0,0,0,5,9.6a1.55,1.55,0,0,1,1-.06l5.7-.94s.29-.48.44-.45a7.11,7.11,0,0,1,9.73-.74Z"/><path fill="#4285f4" d="M29.76,9.6a12.84,12.84,0,0,0-3.87-6.24l-4,4A7.11,7.11,0,0,1,24.5,13v.71a3.56,3.56,0,1,1,0,7.12H17.38l-.71.72v4.27l.71.71H24.5A9.26,9.26,0,0,0,29.76,9.6Z"/><path fill="#34a853" d="M10.25,26.49h7.12v-5.7H10.25a3.54,3.54,0,0,1-1.47-.32l-1,.31L4.91,23.63l-.25,1A9.21,9.21,0,0,0,10.25,26.49Z"/><path fill="#fbbc05" d="M10.25,8A9.26,9.26,0,0,0,4.66,24.6l4.13-4.13a3.56,3.56,0,1,1,4.71-4.71l4.13-4.13A9.25,9.25,0,0,0,10.25,8Z"/><path fill="#5f6368" data-ink="1" d="M52.79,22.51a9.11,9.11,0,0,1-6.6-2.71,8.8,8.8,0,0,1-2.77-6.52,8.81,8.81,0,0,1,2.77-6.52A9.11,9.11,0,0,1,52.79,4a8.84,8.84,0,0,1,6.33,2.55L57.34,8.36a6.41,6.41,0,0,0-4.55-1.8,6.34,6.34,0,0,0-4.7,2,6.53,6.53,0,0,0-1.93,4.75A6.53,6.53,0,0,0,48.09,18a6.71,6.71,0,0,0,9.36.11A5.32,5.32,0,0,0,58.82,15h-6V12.44h8.49A8.12,8.12,0,0,1,61.41,14a8,8,0,0,1-2.19,5.9A8.51,8.51,0,0,1,52.79,22.51Zm19.74-1.7a6.12,6.12,0,0,1-8.47,0,5.7,5.7,0,0,1-1.73-4.25,5.71,5.71,0,0,1,1.73-4.25,6.13,6.13,0,0,1,8.47,0,5.71,5.71,0,0,1,1.73,4.25A5.7,5.7,0,0,1,72.52,20.81Zm-6.6-1.67a3.24,3.24,0,0,0,4.73,0,3.56,3.56,0,0,0,1-2.58,3.57,3.57,0,0,0-1-2.59,3.29,3.29,0,0,0-4.75,0,3.57,3.57,0,0,0-1,2.59A3.56,3.56,0,0,0,65.92,19.14Zm19.62,1.67a6.12,6.12,0,0,1-8.47,0,5.7,5.7,0,0,1-1.73-4.25,5.71,5.71,0,0,1,1.73-4.25,6.12,6.12,0,0,1,8.47,0,5.71,5.71,0,0,1,1.73,4.25A5.7,5.7,0,0,1,85.55,20.81Zm-6.6-1.67a3.24,3.24,0,0,0,4.73,0,3.56,3.56,0,0,0,1-2.58,3.57,3.57,0,0,0-1-2.59,3.29,3.29,0,0,0-4.75,0,3.57,3.57,0,0,0-1,2.59A3.56,3.56,0,0,0,78.94,19.14Zm15.16,8.71a5.24,5.24,0,0,1-3.33-1.06,6.13,6.13,0,0,1-1.94-2.46l2.28-.95a3.84,3.84,0,0,0,1.13,1.49,2.85,2.85,0,0,0,1.87.63,3,3,0,0,0,2.33-.9A3.65,3.65,0,0,0,97.28,22v-.86h-.09a3.81,3.81,0,0,1-3.13,1.35,5.43,5.43,0,0,1-4-1.74,5.75,5.75,0,0,1-1.71-4.19,5.81,5.81,0,0,1,1.71-4.22,5.42,5.42,0,0,1,4-1.75A4.3,4.3,0,0,1,95.9,11a3.7,3.7,0,0,1,1.3.95h.09V11h2.48V21.65a6.21,6.21,0,0,1-1.59,4.65A5.6,5.6,0,0,1,94.11,27.85Zm.18-7.68a2.91,2.91,0,0,0,2.26-1,3.7,3.7,0,0,0,.91-2.56A3.78,3.78,0,0,0,96.55,14a2.9,2.9,0,0,0-2.26-1,3.09,3.09,0,0,0-2.34,1,3.65,3.65,0,0,0-1,2.59,3.58,3.58,0,0,0,1,2.56A3.1,3.1,0,0,0,94.29,20.17Zm9.89-15.5V22.15h-2.61V4.67Zm7.16,17.84a5.68,5.68,0,0,1-4.21-1.71,5.79,5.79,0,0,1-1.69-4.24,5.86,5.86,0,0,1,1.63-4.28,5.36,5.36,0,0,1,4-1.67,5.05,5.05,0,0,1,2,.39,4.71,4.71,0,0,1,1.53,1,7,7,0,0,1,1,1.21,7.15,7.15,0,0,1,.59,1.17l.27.68-8,3.29a3,3,0,0,0,2.88,1.8,3.41,3.41,0,0,0,2.93-1.65l2,1.35a6.59,6.59,0,0,1-1.92,1.82A5.44,5.44,0,0,1,111.34,22.51ZM108,16.38l5.32-2.21a1.84,1.84,0,0,0-.83-.91,2.71,2.71,0,0,0-1.37-.35,3.09,3.09,0,0,0-2.15.95A3.17,3.17,0,0,0,108,16.38Z"/><path fill="#5f6368" data-ink="1" d="M130.13,22.51a8.24,8.24,0,0,1-8.38-8.43,8.24,8.24,0,0,1,8.38-8.43,7.46,7.46,0,0,1,5.93,2.64l-1.44,1.4a5.44,5.44,0,0,0-4.48-2.05,6.11,6.11,0,0,0-4.45,1.78,6.24,6.24,0,0,0-1.81,4.66,6.24,6.24,0,0,0,1.81,4.66,6.11,6.11,0,0,0,4.45,1.78,6.36,6.36,0,0,0,5-2.34l1.44,1.44a7.86,7.86,0,0,1-2.77,2.11A8.48,8.48,0,0,1,130.13,22.51Z"/><path fill="#5f6368" data-ink="1" d="M140.45,22.15h-2.07V6h2.07Z"/><path fill="#5f6368" data-ink="1" d="M143.83,12.43a5.79,5.79,0,0,1,8.16,0,5.85,5.85,0,0,1,1.6,4.2,5.85,5.85,0,0,1-1.6,4.2,5.79,5.79,0,0,1-8.16,0,5.85,5.85,0,0,1-1.6-4.2A5.85,5.85,0,0,1,143.83,12.43Zm1.54,7.1a3.49,3.49,0,0,0,5.07,0,4,4,0,0,0,1.07-2.9,4,4,0,0,0-1.07-2.9,3.49,3.49,0,0,0-5.07,0,4,4,0,0,0-1.07,2.9A4,4,0,0,0,145.38,19.52Z"/><path fill="#5f6368" data-ink="1" d="M165.06,22.15h-2V20.62H163A3.85,3.85,0,0,1,161.54,22a4.08,4.08,0,0,1-2.05.55,3.89,3.89,0,0,1-3.14-1.26,5,5,0,0,1-1.07-3.38V11.11h2.07v6.42q0,3.09,2.73,3.09a2.54,2.54,0,0,0,2.1-1,3.77,3.77,0,0,0,.81-2.39V11.11h2.07Z"/><path fill="#5f6368" data-ink="1" d="M172.09,22.51a4.86,4.86,0,0,1-3.7-1.69,6,6,0,0,1-1.55-4.19,6,6,0,0,1,1.55-4.19,4.86,4.86,0,0,1,3.7-1.69,4.69,4.69,0,0,1,2.26.54,3.83,3.83,0,0,1,1.5,1.35h.09l-.09-1.53V6h2.07V22.15h-2V20.62h-.09a3.83,3.83,0,0,1-1.5,1.35A4.69,4.69,0,0,1,172.09,22.51Zm.34-1.89a3.3,3.3,0,0,0,2.49-1.08,4.05,4.05,0,0,0,1-2.91,4.05,4.05,0,0,0-1-2.91,3.38,3.38,0,0,0-5,0,4,4,0,0,0-1,2.9,4,4,0,0,0,1,2.9A3.3,3.3,0,0,0,172.43,20.62Z"/></svg></span><b>Google Cloud</b><small>Regional subnets, no VPC CIDR · 4 reserved · /29 smallest</small></button>
+            <button data-v="generic"><span class="logo lg-generic"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#5d667a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" data-stroke="1"><rect x="10" y="8" width="44" height="14" rx="3"/><rect x="10" y="25" width="44" height="14" rx="3"/><rect x="10" y="42" width="44" height="14" rx="3"/><circle cx="18" cy="15" r="1.6" fill="#1d9a6c" stroke="none"/><circle cx="18" cy="32" r="1.6" fill="#1d9a6c" stroke="none"/><circle cx="18" cy="49" r="1.6" fill="#d98a0b" stroke="none"/><path d="M30 15h16M30 32h16M30 49h16"/></svg></span><b>Data centre</b><small>Classic IPv4 for on-prem or a lab · 2 reserved</small></button>
+          </div>
+          <div class="hint" id="cloudHint"></div>
+          <div class="teach" id="teach0"></div>
+          <div class="nav"><span></span><button class="btn primary" data-go="next">Next: pick the address space →</button></div>
+        </div>
+      </div>
+
+      <div class="card step" data-step="2">
+        <div class="hd"><h2><span class="num">2</span> Which address space?</h2><span class="hint stepof"></span></div>
         <div class="bd stack">
           <div class="field">
-            <label>Cloud</label>
-            <div class="seg" id="cloudSeg">
-              <button data-v="aws" class="on">AWS</button><button data-v="azure">Azure</button><button data-v="gcp">Google Cloud</button><button data-v="generic">Generic</button>
-            </div>
-            <div class="hint" id="cloudHint"></div>
-          </div>
-          <div class="field">
-            <label>Network CIDR</label>
+            <label>Network CIDR <span class="hint" id="netWord"></span></label>
             <div class="cidr">
               <input type="text" id="addr" value="10.0.0.0" spellcheck="false" class="mono">
               <div class="pfx"><span>/</span><input type="number" id="pfx" min="8" max="28" value="16" class="mono"></div>
@@ -208,43 +307,89 @@ html[data-teach="1"] .teach{display:block}
             <div class="capline"><span id="capL"></span><span id="capR"></span></div>
             <div class="hint" id="addrHint"></div>
           </div>
+          <div class="field"><label>Common choices</label>
+            <div class="presets" id="quick">
+              <button class="chip" data-a="10.0.0.0" data-p="16">10.0.0.0/16 - the usual first VPC</button>
+              <button class="chip" data-a="10.10.0.0" data-p="16">10.10.0.0/16</button>
+              <button class="chip" data-a="172.16.0.0" data-p="16">172.16.0.0/16</button>
+              <button class="chip" data-a="192.168.0.0" data-p="16">192.168.0.0/16 - lab only</button>
+              <button class="chip" data-a="10.0.0.0" data-p="20">10.0.0.0/20 - small and tidy</button>
+            </div>
+          </div>
+          <div class="teach" id="teach1"></div>
+          <div class="nav"><button class="btn" data-go="back">← Back</button><button class="btn primary" data-go="next">Next →</button></div>
+        </div>
+      </div>
+
+      <div class="card step" data-step="3">
+        <div class="hd"><h2><span class="num">3</span> How many zones?</h2><span class="hint stepof"></span></div>
+        <div class="bd stack">
           <div class="field" id="azField">
             <label>Availability Zones</label>
             <div class="seg" id="azSeg"><button data-v="1">1</button><button data-v="2">2</button><button data-v="3" class="on">3</button><button data-v="4">4</button><button data-v="5">5</button><button data-v="6">6</button></div>
+            <div class="hint">Every tier gets one subnet per zone. Two is the minimum for load balancers and Multi-AZ databases; three is the production norm.</div>
             <label class="switch"><input type="checkbox" id="futureAz"> Reserve space for one more zone later</label>
           </div>
-          <div class="teach" id="teach1"></div>
+          <div class="nav"><button class="btn" data-go="back">← Back</button><button class="btn primary" data-go="next">Next: add the tiers →</button></div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="hd"><h2>2. Tiers</h2><button class="btn small" id="addTier">+ Add tier</button></div>
+      <div class="card step" data-step="4">
+        <div class="hd"><h2><span class="num">4</span> What goes inside?</h2><button class="btn small" id="addTier">+ Add tier</button></div>
         <div class="bd stack">
-          <div class="presets" id="presets"></div>
-          <div id="tiers"></div>
+          <div class="field"><label>Start from a layout</label><div class="presets" id="presets"></div></div>
+          <div class="field"><label>Tiers <span class="hint">- one subnet per tier per zone</span></label><div id="tiers"></div></div>
           <div class="hint">Size by <b>prefix</b> or by <b>hosts needed</b> - the planner picks the smallest prefix that fits the hosts plus the cloud's reserved addresses and your growth headroom.</div>
           <div class="teach" id="teach2"></div>
+          <div class="nav"><button class="btn" data-go="back">← Back</button><button class="btn primary" data-go="next">Next: networks you already have →</button></div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="hd"><h2>3. Layout rules</h2></div>
+      <div class="card step" data-step="5">
+        <div class="hd"><h2><span class="num">5</span> What must it not collide with?</h2><span class="hint stepof"></span></div>
         <div class="bd stack">
-          <label class="switch"><input type="checkbox" id="contig" checked> Keep each tier contiguous (one summary block per tier)</label>
-          <div class="field"><label>Growth headroom for host-sized tiers</label>
-            <div class="row"><input type="number" id="growth" min="0" max="400" value="50" style="width:90px"><span class="hint">% extra hosts before rounding up</span></div></div>
-          <div class="field"><label>Existing networks to avoid (one CIDR per line)</label>
-            <textarea id="existing" rows="3" class="mono" placeholder="10.1.0.0/16   on-prem&#10;172.16.0.0/12 shared services VPC&#10;10.0.0.0/8    corporate (overlaps on purpose - try it)"></textarea>
-            <div class="hint">Peering and Transit Gateway refuse overlapping ranges. Paste the ranges of every VPC, VNet, on-prem site and partner you connect to.</div>
+          <div class="field"><label>Existing networks to avoid <span class="hint">- one CIDR per line, optional</span></label>
+            <textarea id="existing" rows="4" class="mono" placeholder="10.1.0.0/16   on-prem&#10;172.16.0.0/12 shared services VPC&#10;10.0.0.0/8    corporate (overlaps on purpose - try it)"></textarea>
+            <div class="hint">Peering and Transit Gateway refuse overlapping ranges. Paste the ranges of every VPC, VNet, on-prem site and partner you connect to - the blueprint shows them next to your network.</div>
           </div>
+          <details class="more"><summary>Layout rules (defaults are right for most designs)</summary>
+            <div class="stack" style="margin-top:10px">
+              <label class="switch"><input type="checkbox" id="contig" checked> Keep each tier contiguous (one summary block per tier)</label>
+              <div class="field"><label>Growth headroom for host-sized tiers</label>
+                <div class="row"><input type="number" id="growth" min="0" max="400" value="50" style="width:90px"><span class="hint">% extra hosts before rounding up</span></div></div>
+            </div>
+          </details>
           <div class="teach" id="teach3"></div>
+          <div class="nav"><button class="btn" data-go="back">← Back</button><button class="btn primary" data-go="next">Review my design →</button></div>
+        </div>
+      </div>
+
+      <div class="card step" data-step="6">
+        <div class="hd"><h2><span class="num">6</span> Your design</h2><span class="hint stepof"></span></div>
+        <div class="bd stack">
+          <div class="summary" id="summary"></div>
+          <div class="row">
+            <button class="btn primary" id="shareBtn2">🔗 Copy share link</button>
+            <button class="btn" id="replayBtn2">▶ Replay the build</button>
+            <button class="btn" id="resetBtn">Start a new design</button>
+          </div>
+          <div class="hint">The map, zone layout, design review, subnet table and exports are below the blueprint. Everything stays in this tab - the share link reproduces the exact plan.</div>
+          <div class="nav"><button class="btn" data-go="back">← Back</button><span></span></div>
         </div>
       </div>
     </aside>
 
-    <!-- RIGHT: results -->
-    <main class="stack">
-      <div class="card">
+    <!-- RIGHT: the blueprint and the results -->
+    <main class="stack" id="results">
+      <div class="card" id="bpCard">
+        <div class="hd"><h2>Your network, as you build it</h2><div class="row"><span class="hint" id="bpNote"></span><button class="btn small" id="replayBtn" title="Play the build animation again">▶ Replay</button></div></div>
+        <div class="bd">
+          <svg class="bp" id="bp" role="img" aria-label="Network blueprint"></svg>
+          <div class="bpstats" id="bpstats"></div>
+        </div>
+      </div>
+
+      <div class="card result">
         <div class="hd"><h2>Address map</h2><div class="seg" id="mapMode"><button data-v="prop" class="on">Proportional</button><button data-v="equal">Equal width</button></div></div>
         <div class="bd">
           <div class="kpis" id="kpis"></div>
@@ -254,22 +399,22 @@ html[data-teach="1"] .teach{display:block}
         </div>
       </div>
 
-      <div class="card">
+      <div class="card result">
         <div class="hd"><h2>Zone layout</h2><span class="hint" id="zoneNote"></span></div>
         <div class="bd"><div class="azgrid" id="azgrid"></div></div>
       </div>
 
-      <div class="card">
+      <div class="card result">
         <div class="hd"><h2>Design review</h2><div class="score"><div class="ring" id="ring" style="--p:0"><span id="scoreV">-</span></div></div></div>
         <div class="bd" id="checks"></div>
       </div>
 
-      <div class="card">
+      <div class="card result">
         <div class="hd"><h2>Subnet table</h2><button class="btn small" id="copyTable">Copy as Markdown</button></div>
         <div class="bd tblwrap"><table id="tbl"></table></div>
       </div>
 
-      <div class="card">
+      <div class="card result">
         <div class="hd"><h2>Export</h2><span class="hint">Copy, download, run.</span></div>
         <div class="tabs" id="tabs"></div>
         <div class="exbar"><label class="switch" id="routingWrap"><input type="checkbox" id="routing" checked> Include routing (IGW, NAT per zone, route tables)</label><span style="flex:1"></span><button class="btn small" id="copyCode">Copy</button><button class="btn small" id="dlCode">Download</button></div>
@@ -390,16 +535,20 @@ const CLOUDS={
 const ROLES={public:{l:'Public',d:'internet-facing: load balancers, NAT gateways, bastion'},private:{l:'Private',d:'application servers, nodes, pods - egress via NAT'},isolated:{l:'Isolated',d:'no internet route: databases, caches, internal only'},data:{l:'Database',d:'RDS / managed databases - isolated route table'},transit:{l:'Transit',d:'Transit Gateway / firewall attachments - small /28s'}};
 const TCOL=['var(--t1)','var(--t2)','var(--t3)','var(--t4)','var(--t5)','var(--t6)','var(--t7)','var(--t8)'];
 const PRESETS={
-  'Three tier (web, app, data)':{tiers:[{n:'public',r:'public',m:'prefix',v:24},{n:'private',r:'private',m:'prefix',v:20},{n:'database',r:'data',m:'prefix',v:24}]},
-  'EKS cluster':{tiers:[{n:'public',r:'public',m:'prefix',v:24},{n:'nodes-pods',r:'private',m:'prefix',v:19},{n:'database',r:'data',m:'prefix',v:26}]},
-  'Minimal lab':{tiers:[{n:'public',r:'public',m:'prefix',v:24},{n:'private',r:'private',m:'prefix',v:24}]},
-  'Hub (firewall + TGW)':{tiers:[{n:'firewall',r:'private',m:'prefix',v:26},{n:'public',r:'public',m:'prefix',v:26},{n:'tgw-attach',r:'transit',m:'prefix',v:28}]},
-  'By hosts':{tiers:[{n:'web',r:'public',m:'hosts',v:50},{n:'app',r:'private',m:'hosts',v:800},{n:'db',r:'data',m:'hosts',v:20}]}
+  'Three tier (web, app, data)':{d:'public /24 · private /20 · database /24 - the standard production layout',tiers:[{n:'public',r:'public',m:'prefix',v:24},{n:'private',r:'private',m:'prefix',v:20},{n:'database',r:'data',m:'prefix',v:24}]},
+  'EKS cluster':{d:'/19 for nodes and pods (8,187 usable per zone) · public /24 · database /26',tiers:[{n:'public',r:'public',m:'prefix',v:24},{n:'nodes-pods',r:'private',m:'prefix',v:19},{n:'database',r:'data',m:'prefix',v:26}]},
+  'Minimal lab':{d:'public /24 + private /24 - demos, tests, learning',tiers:[{n:'public',r:'public',m:'prefix',v:24},{n:'private',r:'private',m:'prefix',v:24}]},
+  'Hub (firewall + TGW)':{d:'firewall /26 · public /26 · Transit Gateway attachments /28',tiers:[{n:'firewall',r:'private',m:'prefix',v:26},{n:'public',r:'public',m:'prefix',v:26},{n:'tgw-attach',r:'transit',m:'prefix',v:28}]},
+  'By hosts':{d:'tell me the hosts per tier, I pick the prefix (50 web · 800 app · 20 db)',tiers:[{n:'web',r:'public',m:'hosts',v:50},{n:'app',r:'private',m:'hosts',v:800},{n:'db',r:'data',m:'hosts',v:20}]}
 };
+const LOGOS={"aws":{"w":304,"h":182,"light":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzA0IDE4MiI+PGc+PHBhdGggZmlsbD0iIzI1MkYzRSIgZGF0YS1pbms9IjEiIGQ9Ik04Ni40LDY2LjRjMCwzLjcsMC40LDYuNywxLjEsOC45YzAuOCwyLjIsMS44LDQuNiwzLjIsNy4yYzAuNSwwLjgsMC43LDEuNiwwLjcsMi4zYzAsMS0wLjYsMi0xLjksM2wtNi4zLDQuMiBjLTAuOSwwLjYtMS44LDAuOS0yLjYsMC45Yy0xLDAtMi0wLjUtMy0xLjRDNzYuMiw5MCw3NSw4OC40LDc0LDg2LjhjLTEtMS43LTItMy42LTMuMS01LjljLTcuOCw5LjItMTcuNiwxMy44LTI5LjQsMTMuOCBjLTguNCwwLTE1LjEtMi40LTIwLTcuMmMtNC45LTQuOC03LjQtMTEuMi03LjQtMTkuMmMwLTguNSwzLTE1LjQsOS4xLTIwLjZjNi4xLTUuMiwxNC4yLTcuOCwyNC41LTcuOGMzLjQsMCw2LjksMC4zLDEwLjYsMC44IGMzLjcsMC41LDcuNSwxLjMsMTEuNSwyLjJ2LTcuM2MwLTcuNi0xLjYtMTIuOS00LjctMTZjLTMuMi0zLjEtOC42LTQuNi0xNi4zLTQuNmMtMy41LDAtNy4xLDAuNC0xMC44LDEuM2MtMy43LDAuOS03LjMsMi0xMC44LDMuNCBjLTEuNiwwLjctMi44LDEuMS0zLjUsMS4zYy0wLjcsMC4yLTEuMiwwLjMtMS42LDAuM2MtMS40LDAtMi4xLTEtMi4xLTMuMXYtNC45YzAtMS42LDAuMi0yLjgsMC43LTMuNWMwLjUtMC43LDEuNC0xLjQsMi44LTIuMSBjMy41LTEuOCw3LjctMy4zLDEyLjYtNC41YzQuOS0xLjMsMTAuMS0xLjksMTUuNi0xLjljMTEuOSwwLDIwLjYsMi43LDI2LjIsOC4xYzUuNSw1LjQsOC4zLDEzLjYsOC4zLDI0LjZWNjYuNHogTTQ1LjgsODEuNiBjMy4zLDAsNi43LTAuNiwxMC4zLTEuOGMzLjYtMS4yLDYuOC0zLjQsOS41LTYuNGMxLjYtMS45LDIuOC00LDMuNC02LjRjMC42LTIuNCwxLTUuMywxLTguN3YtNC4yYy0yLjktMC43LTYtMS4zLTkuMi0xLjcgYy0zLjItMC40LTYuMy0wLjYtOS40LTAuNmMtNi43LDAtMTEuNiwxLjMtMTQuOSw0Yy0zLjMsMi43LTQuOSw2LjUtNC45LDExLjVjMCw0LjcsMS4yLDguMiwzLjcsMTAuNiBDMzcuNyw4MC40LDQxLjIsODEuNiw0NS44LDgxLjZ6IE0xMjYuMSw5Mi40Yy0xLjgsMC0zLTAuMy0zLjgtMWMtMC44LTAuNi0xLjUtMi0yLjEtMy45TDk2LjcsMTAuMmMtMC42LTItMC45LTMuMy0wLjktNCBjMC0xLjYsMC44LTIuNSwyLjQtMi41aDkuOGMxLjksMCwzLjIsMC4zLDMuOSwxYzAuOCwwLjYsMS40LDIsMiwzLjlsMTYuOCw2Ni4ybDE1LjYtNjYuMmMwLjUtMiwxLjEtMy4zLDEuOS0zLjljMC44LTAuNiwyLjItMSw0LTEgaDhjMS45LDAsMy4yLDAuMyw0LDFjMC44LDAuNiwxLjUsMiwxLjksMy45bDE1LjgsNjdsMTcuMy02N2MwLjYtMiwxLjMtMy4zLDItMy45YzAuOC0wLjYsMi4xLTEsMy45LTFoOS4zYzEuNiwwLDIuNSwwLjgsMi41LDIuNSBjMCwwLjUtMC4xLDEtMC4yLDEuNmMtMC4xLDAuNi0wLjMsMS40LTAuNywyLjVsLTI0LjEsNzcuM2MtMC42LDItMS4zLDMuMy0yLjEsMy45Yy0wLjgsMC42LTIuMSwxLTMuOCwxaC04LjZjLTEuOSwwLTMuMi0wLjMtNC0xIGMtMC44LTAuNy0xLjUtMi0xLjktNEwxNTYsMjNsLTE1LjQsNjQuNGMtMC41LDItMS4xLDMuMy0xLjksNGMtMC44LDAuNy0yLjIsMS00LDFIMTI2LjF6IE0yNTQuNiw5NS4xYy01LjIsMC0xMC40LTAuNi0xNS40LTEuOCBjLTUtMS4yLTguOS0yLjUtMTEuNS00Yy0xLjYtMC45LTIuNy0xLjktMy4xLTIuOGMtMC40LTAuOS0wLjYtMS45LTAuNi0yLjh2LTUuMWMwLTIuMSwwLjgtMy4xLDIuMy0zLjFjMC42LDAsMS4yLDAuMSwxLjgsMC4zIGMwLjYsMC4yLDEuNSwwLjYsMi41LDFjMy40LDEuNSw3LjEsMi43LDExLDMuNWM0LDAuOCw3LjksMS4yLDExLjksMS4yYzYuMywwLDExLjItMS4xLDE0LjYtMy4zYzMuNC0yLjIsNS4yLTUuNCw1LjItOS41IGMwLTIuOC0wLjktNS4xLTIuNy03Yy0xLjgtMS45LTUuMi0zLjYtMTAuMS01LjJMMjQ2LDUyYy03LjMtMi4zLTEyLjctNS43LTE2LTEwLjJjLTMuMy00LjQtNS05LjMtNS0xNC41YzAtNC4yLDAuOS03LjksMi43LTExLjEgYzEuOC0zLjIsNC4yLTYsNy4yLTguMmMzLTIuMyw2LjQtNCwxMC40LTUuMmM0LTEuMiw4LjItMS43LDEyLjYtMS43YzIuMiwwLDQuNSwwLjEsNi43LDAuNGMyLjMsMC4zLDQuNCwwLjcsNi41LDEuMSBjMiwwLjUsMy45LDEsNS43LDEuNmMxLjgsMC42LDMuMiwxLjIsNC4yLDEuOGMxLjQsMC44LDIuNCwxLjYsMywyLjVjMC42LDAuOCwwLjksMS45LDAuOSwzLjN2NC43YzAsMi4xLTAuOCwzLjItMi4zLDMuMiBjLTAuOCwwLTIuMS0wLjQtMy44LTEuMmMtNS43LTIuNi0xMi4xLTMuOS0xOS4yLTMuOWMtNS43LDAtMTAuMiwwLjktMTMuMywyLjhjLTMuMSwxLjktNC43LDQuOC00LjcsOC45YzAsMi44LDEsNS4yLDMsNy4xIGMyLDEuOSw1LjcsMy44LDExLDUuNWwxNC4yLDQuNWM3LjIsMi4zLDEyLjQsNS41LDE1LjUsOS42YzMuMSw0LjEsNC42LDguOCw0LjYsMTRjMCw0LjMtMC45LDguMi0yLjYsMTEuNiBjLTEuOCwzLjQtNC4yLDYuNC03LjMsOC44Yy0zLjEsMi41LTYuOCw0LjMtMTEuMSw1LjZDMjY0LjQsOTQuNCwyNTkuNyw5NS4xLDI1NC42LDk1LjF6Ii8+PGc+PHBhdGggZmlsbD0iI0ZGOTkwMCIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yNzMuNSwxNDMuN2MtMzIuOSwyNC4zLTgwLjcsMzcuMi0xMjEuOCwzNy4yYy01Ny42LDAtMTA5LjUtMjEuMy0xNDguNy01Ni43Yy0zLjEtMi44LTAuMy02LjYsMy40LTQuNCBjNDIuNCwyNC42LDk0LjcsMzkuNSwxNDguOCwzOS41YzM2LjUsMCw3Ni42LTcuNiwxMTMuNS0yMy4yQzI3NC4yLDEzMy42LDI3OC45LDEzOS43LDI3My41LDE0My43eiIvPjxwYXRoIGZpbGw9IiNGRjk5MDAiIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjg3LjIsMTI4LjFjLTQuMi01LjQtMjcuOC0yLjYtMzguNS0xLjNjLTMuMiwwLjQtMy43LTIuNC0wLjgtNC41YzE4LjgtMTMuMiw0OS43LTkuNCw1My4zLTUgYzMuNiw0LjUtMSwzNS40LTE4LjYsNTAuMmMtMi43LDIuMy01LjMsMS4xLTQuMS0xLjlDMjgyLjUsMTU1LjcsMjkxLjQsMTMzLjQsMjg3LjIsMTI4LjF6Ii8+PC9nPjwvZz48L3N2Zz4=","dark":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMzA0IDE4MiI+PGc+PHBhdGggZmlsbD0iI2ZmZmZmZiIgZD0iTTg2LjQsNjYuNGMwLDMuNywwLjQsNi43LDEuMSw4LjljMC44LDIuMiwxLjgsNC42LDMuMiw3LjJjMC41LDAuOCwwLjcsMS42LDAuNywyLjNjMCwxLTAuNiwyLTEuOSwzbC02LjMsNC4yIGMtMC45LDAuNi0xLjgsMC45LTIuNiwwLjljLTEsMC0yLTAuNS0zLTEuNEM3Ni4yLDkwLDc1LDg4LjQsNzQsODYuOGMtMS0xLjctMi0zLjYtMy4xLTUuOWMtNy44LDkuMi0xNy42LDEzLjgtMjkuNCwxMy44IGMtOC40LDAtMTUuMS0yLjQtMjAtNy4yYy00LjktNC44LTcuNC0xMS4yLTcuNC0xOS4yYzAtOC41LDMtMTUuNCw5LjEtMjAuNmM2LjEtNS4yLDE0LjItNy44LDI0LjUtNy44YzMuNCwwLDYuOSwwLjMsMTAuNiwwLjggYzMuNywwLjUsNy41LDEuMywxMS41LDIuMnYtNy4zYzAtNy42LTEuNi0xMi45LTQuNy0xNmMtMy4yLTMuMS04LjYtNC42LTE2LjMtNC42Yy0zLjUsMC03LjEsMC40LTEwLjgsMS4zYy0zLjcsMC45LTcuMywyLTEwLjgsMy40IGMtMS42LDAuNy0yLjgsMS4xLTMuNSwxLjNjLTAuNywwLjItMS4yLDAuMy0xLjYsMC4zYy0xLjQsMC0yLjEtMS0yLjEtMy4xdi00LjljMC0xLjYsMC4yLTIuOCwwLjctMy41YzAuNS0wLjcsMS40LTEuNCwyLjgtMi4xIGMzLjUtMS44LDcuNy0zLjMsMTIuNi00LjVjNC45LTEuMywxMC4xLTEuOSwxNS42LTEuOWMxMS45LDAsMjAuNiwyLjcsMjYuMiw4LjFjNS41LDUuNCw4LjMsMTMuNiw4LjMsMjQuNlY2Ni40eiBNNDUuOCw4MS42IGMzLjMsMCw2LjctMC42LDEwLjMtMS44YzMuNi0xLjIsNi44LTMuNCw5LjUtNi40YzEuNi0xLjksMi44LTQsMy40LTYuNGMwLjYtMi40LDEtNS4zLDEtOC43di00LjJjLTIuOS0wLjctNi0xLjMtOS4yLTEuNyBjLTMuMi0wLjQtNi4zLTAuNi05LjQtMC42Yy02LjcsMC0xMS42LDEuMy0xNC45LDRjLTMuMywyLjctNC45LDYuNS00LjksMTEuNWMwLDQuNywxLjIsOC4yLDMuNywxMC42IEMzNy43LDgwLjQsNDEuMiw4MS42LDQ1LjgsODEuNnogTTEyNi4xLDkyLjRjLTEuOCwwLTMtMC4zLTMuOC0xYy0wLjgtMC42LTEuNS0yLTIuMS0zLjlMOTYuNywxMC4yYy0wLjYtMi0wLjktMy4zLTAuOS00IGMwLTEuNiwwLjgtMi41LDIuNC0yLjVoOS44YzEuOSwwLDMuMiwwLjMsMy45LDFjMC44LDAuNiwxLjQsMiwyLDMuOWwxNi44LDY2LjJsMTUuNi02Ni4yYzAuNS0yLDEuMS0zLjMsMS45LTMuOWMwLjgtMC42LDIuMi0xLDQtMSBoOGMxLjksMCwzLjIsMC4zLDQsMWMwLjgsMC42LDEuNSwyLDEuOSwzLjlsMTUuOCw2N2wxNy4zLTY3YzAuNi0yLDEuMy0zLjMsMi0zLjljMC44LTAuNiwyLjEtMSwzLjktMWg5LjNjMS42LDAsMi41LDAuOCwyLjUsMi41IGMwLDAuNS0wLjEsMS0wLjIsMS42Yy0wLjEsMC42LTAuMywxLjQtMC43LDIuNWwtMjQuMSw3Ny4zYy0wLjYsMi0xLjMsMy4zLTIuMSwzLjljLTAuOCwwLjYtMi4xLDEtMy44LDFoLTguNmMtMS45LDAtMy4yLTAuMy00LTEgYy0wLjgtMC43LTEuNS0yLTEuOS00TDE1NiwyM2wtMTUuNCw2NC40Yy0wLjUsMi0xLjEsMy4zLTEuOSw0Yy0wLjgsMC43LTIuMiwxLTQsMUgxMjYuMXogTTI1NC42LDk1LjFjLTUuMiwwLTEwLjQtMC42LTE1LjQtMS44IGMtNS0xLjItOC45LTIuNS0xMS41LTRjLTEuNi0wLjktMi43LTEuOS0zLjEtMi44Yy0wLjQtMC45LTAuNi0xLjktMC42LTIuOHYtNS4xYzAtMi4xLDAuOC0zLjEsMi4zLTMuMWMwLjYsMCwxLjIsMC4xLDEuOCwwLjMgYzAuNiwwLjIsMS41LDAuNiwyLjUsMWMzLjQsMS41LDcuMSwyLjcsMTEsMy41YzQsMC44LDcuOSwxLjIsMTEuOSwxLjJjNi4zLDAsMTEuMi0xLjEsMTQuNi0zLjNjMy40LTIuMiw1LjItNS40LDUuMi05LjUgYzAtMi44LTAuOS01LjEtMi43LTdjLTEuOC0xLjktNS4yLTMuNi0xMC4xLTUuMkwyNDYsNTJjLTcuMy0yLjMtMTIuNy01LjctMTYtMTAuMmMtMy4zLTQuNC01LTkuMy01LTE0LjVjMC00LjIsMC45LTcuOSwyLjctMTEuMSBjMS44LTMuMiw0LjItNiw3LjItOC4yYzMtMi4zLDYuNC00LDEwLjQtNS4yYzQtMS4yLDguMi0xLjcsMTIuNi0xLjdjMi4yLDAsNC41LDAuMSw2LjcsMC40YzIuMywwLjMsNC40LDAuNyw2LjUsMS4xIGMyLDAuNSwzLjksMSw1LjcsMS42YzEuOCwwLjYsMy4yLDEuMiw0LjIsMS44YzEuNCwwLjgsMi40LDEuNiwzLDIuNWMwLjYsMC44LDAuOSwxLjksMC45LDMuM3Y0LjdjMCwyLjEtMC44LDMuMi0yLjMsMy4yIGMtMC44LDAtMi4xLTAuNC0zLjgtMS4yYy01LjctMi42LTEyLjEtMy45LTE5LjItMy45Yy01LjcsMC0xMC4yLDAuOS0xMy4zLDIuOGMtMy4xLDEuOS00LjcsNC44LTQuNyw4LjljMCwyLjgsMSw1LjIsMyw3LjEgYzIsMS45LDUuNywzLjgsMTEsNS41bDE0LjIsNC41YzcuMiwyLjMsMTIuNCw1LjUsMTUuNSw5LjZjMy4xLDQuMSw0LjYsOC44LDQuNiwxNGMwLDQuMy0wLjksOC4yLTIuNiwxMS42IGMtMS44LDMuNC00LjIsNi40LTcuMyw4LjhjLTMuMSwyLjUtNi44LDQuMy0xMS4xLDUuNkMyNjQuNCw5NC40LDI1OS43LDk1LjEsMjU0LjYsOTUuMXoiLz48Zz48cGF0aCBmaWxsPSIjRkY5OTAwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI3My41LDE0My43Yy0zMi45LDI0LjMtODAuNywzNy4yLTEyMS44LDM3LjJjLTU3LjYsMC0xMDkuNS0yMS4zLTE0OC43LTU2LjdjLTMuMS0yLjgtMC4zLTYuNiwzLjQtNC40IGM0Mi40LDI0LjYsOTQuNywzOS41LDE0OC44LDM5LjVjMzYuNSwwLDc2LjYtNy42LDExMy41LTIzLjJDMjc0LjIsMTMzLjYsMjc4LjksMTM5LjcsMjczLjUsMTQzLjd6Ii8+PHBhdGggZmlsbD0iI0ZGOTkwMCIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yODcuMiwxMjguMWMtNC4yLTUuNC0yNy44LTIuNi0zOC41LTEuM2MtMy4yLDAuNC0zLjctMi40LTAuOC00LjVjMTguOC0xMy4yLDQ5LjctOS40LDUzLjMtNSBjMy42LDQuNS0xLDM1LjQtMTguNiw1MC4yYy0yLjcsMi4zLTUuMywxLjEtNC4xLTEuOUMyODIuNSwxNTUuNywyOTEuNCwxMzMuNCwyODcuMiwxMjguMXoiLz48L2c+PC9nPjwvc3ZnPg=="},"azure":{"w":96,"h":96,"light":"data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJlMzk5YzE5Zi1iNjhmLTQyOWQtYjE3Ni0xOGMyMTE3ZmY3M2MiIHgxPSItMTAzMi4xNzIiIHgyPSItMTA1OS4yMTMiIHkxPSIxNDUuMzEyIiB5Mj0iNjUuNDI2IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDEwNzUgMTU4KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzExNGE4YiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA2NjliYyIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJhYzJhNmZjMi1jYTQ4LTQzMjctOWEzYy1kNGRjYzMyNTZlMTUiIHgxPSItMTAyMy43MjUiIHgyPSItMTAyOS45OCIgeTE9IjEwOC4wODMiIHkyPSIxMDUuOTY4IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDEwNzUgMTU4KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1vcGFjaXR5PSIuMyIvPjxzdG9wIG9mZnNldD0iLjA3MSIgc3RvcC1vcGFjaXR5PSIuMiIvPjxzdG9wIG9mZnNldD0iLjMyMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iLjYyMyIgc3RvcC1vcGFjaXR5PSIuMDUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJhN2ZlZTk3MC1hNzg0LTRiYjEtYWY4ZC02M2QxOGU1ZjdkYjkiIHgxPSItMTAyNy4xNjUiIHgyPSItOTk3LjQ4MiIgeTE9IjE0Ny42NDIiIHkyPSI2OC41NjEiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMTA3NSAxNTgpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjM2NjYmY0Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjg5MmRmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZmlsbD0idXJsKCNlMzk5YzE5Zi1iNjhmLTQyOWQtYjE3Ni0xOGMyMTE3ZmY3M2MpIiBkPSJNMzMuMzM4IDYuNTQ0aDI2LjAzOGwtMjcuMDMgODAuMDg3YTQuMTUyIDQuMTUyIDAgMCAxLTMuOTMzIDIuODI0SDguMTQ5YTQuMTQ1IDQuMTQ1IDAgMCAxLTMuOTI4LTUuNDdMMjkuNDA0IDkuMzY4YTQuMTUyIDQuMTUyIDAgMCAxIDMuOTM0LTIuODI1eiIvPjxwYXRoIGZpbGw9IiMwMDc4ZDQiIGQ9Ik03MS4xNzUgNjAuMjYxaC00MS4yOWExLjkxMSAxLjkxMSAwIDAgMC0xLjMwNSAzLjMwOWwyNi41MzIgMjQuNzY0YTQuMTcxIDQuMTcxIDAgMCAwIDIuODQ2IDEuMTIxaDIzLjM4eiIvPjxwYXRoIGZpbGw9InVybCgjYWMyYTZmYzItY2E0OC00MzI3LTlhM2MtZDRkY2MzMjU2ZTE1KSIgZD0iTTMzLjMzOCA2LjU0NGE0LjExOCA0LjExOCAwIDAgMC0zLjk0MyAyLjg3OUw0LjI1MiA4My45MTdhNC4xNCA0LjE0IDAgMCAwIDMuOTA4IDUuNTM4aDIwLjc4N2E0LjQ0MyA0LjQ0MyAwIDAgMCAzLjQxLTIuOWw1LjAxNC0xNC43NzcgMTcuOTEgMTYuNzA1YTQuMjM3IDQuMjM3IDAgMCAwIDIuNjY2Ljk3Mkg4MS4yNEw3MS4wMjQgNjAuMjYxbC0yOS43ODEuMDA3TDU5LjQ3IDYuNTQ0eiIvPjxwYXRoIGZpbGw9InVybCgjYTdmZWU5NzAtYTc4NC00YmIxLWFmOGQtNjNkMThlNWY3ZGI5KSIgZD0iTTY2LjU5NSA5LjM2NGE0LjE0NSA0LjE0NSAwIDAgMC0zLjkyOC0yLjgySDMzLjY0OGE0LjE0NiA0LjE0NiAwIDAgMSAzLjkyOCAyLjgybDI1LjE4NCA3NC42MmE0LjE0NiA0LjE0NiAwIDAgMS0zLjkyOCA1LjQ3MmgyOS4wMmE0LjE0NiA0LjE0NiAwIDAgMCAzLjkyNy01LjQ3MnoiLz48L3N2Zz4=","dark":"data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgOTYgOTYiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJlMzk5YzE5Zi1iNjhmLTQyOWQtYjE3Ni0xOGMyMTE3ZmY3M2MiIHgxPSItMTAzMi4xNzIiIHgyPSItMTA1OS4yMTMiIHkxPSIxNDUuMzEyIiB5Mj0iNjUuNDI2IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDEwNzUgMTU4KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzExNGE4YiIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA2NjliYyIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJhYzJhNmZjMi1jYTQ4LTQzMjctOWEzYy1kNGRjYzMyNTZlMTUiIHgxPSItMTAyMy43MjUiIHgyPSItMTAyOS45OCIgeTE9IjEwOC4wODMiIHkyPSIxMDUuOTY4IiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDEwNzUgMTU4KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1vcGFjaXR5PSIuMyIvPjxzdG9wIG9mZnNldD0iLjA3MSIgc3RvcC1vcGFjaXR5PSIuMiIvPjxzdG9wIG9mZnNldD0iLjMyMSIgc3RvcC1vcGFjaXR5PSIuMSIvPjxzdG9wIG9mZnNldD0iLjYyMyIgc3RvcC1vcGFjaXR5PSIuMDUiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3Atb3BhY2l0eT0iMCIvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSJhN2ZlZTk3MC1hNzg0LTRiYjEtYWY4ZC02M2QxOGU1ZjdkYjkiIHgxPSItMTAyNy4xNjUiIHgyPSItOTk3LjQ4MiIgeTE9IjE0Ny42NDIiIHkyPSI2OC41NjEiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgMTA3NSAxNTgpIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjM2NjYmY0Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjg5MmRmIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZmlsbD0idXJsKCNlMzk5YzE5Zi1iNjhmLTQyOWQtYjE3Ni0xOGMyMTE3ZmY3M2MpIiBkPSJNMzMuMzM4IDYuNTQ0aDI2LjAzOGwtMjcuMDMgODAuMDg3YTQuMTUyIDQuMTUyIDAgMCAxLTMuOTMzIDIuODI0SDguMTQ5YTQuMTQ1IDQuMTQ1IDAgMCAxLTMuOTI4LTUuNDdMMjkuNDA0IDkuMzY4YTQuMTUyIDQuMTUyIDAgMCAxIDMuOTM0LTIuODI1eiIvPjxwYXRoIGZpbGw9IiMwMDc4ZDQiIGQ9Ik03MS4xNzUgNjAuMjYxaC00MS4yOWExLjkxMSAxLjkxMSAwIDAgMC0xLjMwNSAzLjMwOWwyNi41MzIgMjQuNzY0YTQuMTcxIDQuMTcxIDAgMCAwIDIuODQ2IDEuMTIxaDIzLjM4eiIvPjxwYXRoIGZpbGw9InVybCgjYWMyYTZmYzItY2E0OC00MzI3LTlhM2MtZDRkY2MzMjU2ZTE1KSIgZD0iTTMzLjMzOCA2LjU0NGE0LjExOCA0LjExOCAwIDAgMC0zLjk0MyAyLjg3OUw0LjI1MiA4My45MTdhNC4xNCA0LjE0IDAgMCAwIDMuOTA4IDUuNTM4aDIwLjc4N2E0LjQ0MyA0LjQ0MyAwIDAgMCAzLjQxLTIuOWw1LjAxNC0xNC43NzcgMTcuOTEgMTYuNzA1YTQuMjM3IDQuMjM3IDAgMCAwIDIuNjY2Ljk3Mkg4MS4yNEw3MS4wMjQgNjAuMjYxbC0yOS43ODEuMDA3TDU5LjQ3IDYuNTQ0eiIvPjxwYXRoIGZpbGw9InVybCgjYTdmZWU5NzAtYTc4NC00YmIxLWFmOGQtNjNkMThlNWY3ZGI5KSIgZD0iTTY2LjU5NSA5LjM2NGE0LjE0NSA0LjE0NSAwIDAgMC0zLjkyOC0yLjgySDMzLjY0OGE0LjE0NiA0LjE0NiAwIDAgMSAzLjkyOCAyLjgybDI1LjE4NCA3NC42MmE0LjE0NiA0LjE0NiAwIDAgMS0zLjkyOCA1LjQ3MmgyOS4wMmE0LjE0NiA0LjE0NiAwIDAgMCAzLjkyNy01LjQ3MnoiLz48L3N2Zz4="},"gcp":{"w":181,"h":28,"light":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODEgMjgiPjxwYXRoIGZpbGw9IiNlYTQzMzUiIGQ9Ik0yMS44NSw3LjQxbDEsMCwyLjg1LTIuODUuMTQtMS4yMUExMi44MSwxMi44MSwwLDAsMCw1LDkuNmExLjU1LDEuNTUsMCwwLDEsMS0uMDZsNS43LS45NHMuMjktLjQ4LjQ0LS40NWE3LjExLDcuMTEsMCwwLDEsOS43My0uNzRaIi8+PHBhdGggZmlsbD0iIzQyODVmNCIgZD0iTTI5Ljc2LDkuNmExMi44NCwxMi44NCwwLDAsMC0zLjg3LTYuMjRsLTQsNEE3LjExLDcuMTEsMCwwLDEsMjQuNSwxM3YuNzFhMy41NiwzLjU2LDAsMSwxLDAsNy4xMkgxNy4zOGwtLjcxLjcydjQuMjdsLjcxLjcxSDI0LjVBOS4yNiw5LjI2LDAsMCwwLDI5Ljc2LDkuNloiLz48cGF0aCBmaWxsPSIjMzRhODUzIiBkPSJNMTAuMjUsMjYuNDloNy4xMnYtNS43SDEwLjI1YTMuNTQsMy41NCwwLDAsMS0xLjQ3LS4zMmwtMSwuMzFMNC45MSwyMy42M2wtLjI1LDFBOS4yMSw5LjIxLDAsMCwwLDEwLjI1LDI2LjQ5WiIvPjxwYXRoIGZpbGw9IiNmYmJjMDUiIGQ9Ik0xMC4yNSw4QTkuMjYsOS4yNiwwLDAsMCw0LjY2LDI0LjZsNC4xMy00LjEzYTMuNTYsMy41NiwwLDEsMSw0LjcxLTQuNzFsNC4xMy00LjEzQTkuMjUsOS4yNSwwLDAsMCwxMC4yNSw4WiIvPjxwYXRoIGZpbGw9IiM1ZjYzNjgiIGRhdGEtaW5rPSIxIiBkPSJNNTIuNzksMjIuNTFhOS4xMSw5LjExLDAsMCwxLTYuNi0yLjcxLDguOCw4LjgsMCwwLDEtMi43Ny02LjUyLDguODEsOC44MSwwLDAsMSwyLjc3LTYuNTJBOS4xMSw5LjExLDAsMCwxLDUyLjc5LDRhOC44NCw4Ljg0LDAsMCwxLDYuMzMsMi41NUw1Ny4zNCw4LjM2YTYuNDEsNi40MSwwLDAsMC00LjU1LTEuOCw2LjM0LDYuMzQsMCwwLDAtNC43LDIsNi41Myw2LjUzLDAsMCwwLTEuOTMsNC43NUE2LjUzLDYuNTMsMCwwLDAsNDguMDksMThhNi43MSw2LjcxLDAsMCwwLDkuMzYuMTFBNS4zMiw1LjMyLDAsMCwwLDU4LjgyLDE1aC02VjEyLjQ0aDguNDlBOC4xMiw4LjEyLDAsMCwxLDYxLjQxLDE0YTgsOCwwLDAsMS0yLjE5LDUuOUE4LjUxLDguNTEsMCwwLDEsNTIuNzksMjIuNTFabTE5Ljc0LTEuN2E2LjEyLDYuMTIsMCwwLDEtOC40NywwLDUuNyw1LjcsMCwwLDEtMS43My00LjI1LDUuNzEsNS43MSwwLDAsMSwxLjczLTQuMjUsNi4xMyw2LjEzLDAsMCwxLDguNDcsMCw1LjcxLDUuNzEsMCwwLDEsMS43Myw0LjI1QTUuNyw1LjcsMCwwLDEsNzIuNTIsMjAuODFabS02LjYtMS42N2EzLjI0LDMuMjQsMCwwLDAsNC43MywwLDMuNTYsMy41NiwwLDAsMCwxLTIuNTgsMy41NywzLjU3LDAsMCwwLTEtMi41OSwzLjI5LDMuMjksMCwwLDAtNC43NSwwLDMuNTcsMy41NywwLDAsMC0xLDIuNTlBMy41NiwzLjU2LDAsMCwwLDY1LjkyLDE5LjE0Wm0xOS42MiwxLjY3YTYuMTIsNi4xMiwwLDAsMS04LjQ3LDAsNS43LDUuNywwLDAsMS0xLjczLTQuMjUsNS43MSw1LjcxLDAsMCwxLDEuNzMtNC4yNSw2LjEyLDYuMTIsMCwwLDEsOC40NywwLDUuNzEsNS43MSwwLDAsMSwxLjczLDQuMjVBNS43LDUuNywwLDAsMSw4NS41NSwyMC44MVptLTYuNi0xLjY3YTMuMjQsMy4yNCwwLDAsMCw0LjczLDAsMy41NiwzLjU2LDAsMCwwLDEtMi41OCwzLjU3LDMuNTcsMCwwLDAtMS0yLjU5LDMuMjksMy4yOSwwLDAsMC00Ljc1LDAsMy41NywzLjU3LDAsMCwwLTEsMi41OUEzLjU2LDMuNTYsMCwwLDAsNzguOTQsMTkuMTRabTE1LjE2LDguNzFhNS4yNCw1LjI0LDAsMCwxLTMuMzMtMS4wNiw2LjEzLDYuMTMsMCwwLDEtMS45NC0yLjQ2bDIuMjgtLjk1YTMuODQsMy44NCwwLDAsMCwxLjEzLDEuNDksMi44NSwyLjg1LDAsMCwwLDEuODcuNjMsMywzLDAsMCwwLDIuMzMtLjlBMy42NSwzLjY1LDAsMCwwLDk3LjI4LDIydi0uODZoLS4wOWEzLjgxLDMuODEsMCwwLDEtMy4xMywxLjM1LDUuNDMsNS40MywwLDAsMS00LTEuNzQsNS43NSw1Ljc1LDAsMCwxLTEuNzEtNC4xOSw1LjgxLDUuODEsMCwwLDEsMS43MS00LjIyLDUuNDIsNS40MiwwLDAsMSw0LTEuNzVBNC4zLDQuMywwLDAsMSw5NS45LDExYTMuNywzLjcsMCwwLDEsMS4zLjk1aC4wOVYxMWgyLjQ4VjIxLjY1YTYuMjEsNi4yMSwwLDAsMS0xLjU5LDQuNjVBNS42LDUuNiwwLDAsMSw5NC4xMSwyNy44NVptLjE4LTcuNjhhMi45MSwyLjkxLDAsMCwwLDIuMjYtMSwzLjcsMy43LDAsMCwwLC45MS0yLjU2QTMuNzgsMy43OCwwLDAsMCw5Ni41NSwxNGEyLjksMi45LDAsMCwwLTIuMjYtMSwzLjA5LDMuMDksMCwwLDAtMi4zNCwxLDMuNjUsMy42NSwwLDAsMC0xLDIuNTksMy41OCwzLjU4LDAsMCwwLDEsMi41NkEzLjEsMy4xLDAsMCwwLDk0LjI5LDIwLjE3Wm05Ljg5LTE1LjVWMjIuMTVoLTIuNjFWNC42N1ptNy4xNiwxNy44NGE1LjY4LDUuNjgsMCwwLDEtNC4yMS0xLjcxLDUuNzksNS43OSwwLDAsMS0xLjY5LTQuMjQsNS44Niw1Ljg2LDAsMCwxLDEuNjMtNC4yOCw1LjM2LDUuMzYsMCwwLDEsNC0xLjY3LDUuMDUsNS4wNSwwLDAsMSwyLC4zOSw0LjcxLDQuNzEsMCwwLDEsMS41MywxLDcsNywwLDAsMSwxLDEuMjEsNy4xNSw3LjE1LDAsMCwxLC41OSwxLjE3bC4yNy42OC04LDMuMjlhMywzLDAsMCwwLDIuODgsMS44LDMuNDEsMy40MSwwLDAsMCwyLjkzLTEuNjVsMiwxLjM1YTYuNTksNi41OSwwLDAsMS0xLjkyLDEuODJBNS40NCw1LjQ0LDAsMCwxLDExMS4zNCwyMi41MVpNMTA4LDE2LjM4bDUuMzItMi4yMWExLjg0LDEuODQsMCwwLDAtLjgzLS45MSwyLjcxLDIuNzEsMCwwLDAtMS4zNy0uMzUsMy4wOSwzLjA5LDAsMCwwLTIuMTUuOTVBMy4xNywzLjE3LDAsMCwwLDEwOCwxNi4zOFoiLz48cGF0aCBmaWxsPSIjNWY2MzY4IiBkYXRhLWluaz0iMSIgZD0iTTEzMC4xMywyMi41MWE4LjI0LDguMjQsMCwwLDEtOC4zOC04LjQzLDguMjQsOC4yNCwwLDAsMSw4LjM4LTguNDMsNy40Niw3LjQ2LDAsMCwxLDUuOTMsMi42NGwtMS40NCwxLjRhNS40NCw1LjQ0LDAsMCwwLTQuNDgtMi4wNSw2LjExLDYuMTEsMCwwLDAtNC40NSwxLjc4LDYuMjQsNi4yNCwwLDAsMC0xLjgxLDQuNjYsNi4yNCw2LjI0LDAsMCwwLDEuODEsNC42Niw2LjExLDYuMTEsMCwwLDAsNC40NSwxLjc4LDYuMzYsNi4zNiwwLDAsMCw1LTIuMzRsMS40NCwxLjQ0YTcuODYsNy44NiwwLDAsMS0yLjc3LDIuMTFBOC40OCw4LjQ4LDAsMCwxLDEzMC4xMywyMi41MVoiLz48cGF0aCBmaWxsPSIjNWY2MzY4IiBkYXRhLWluaz0iMSIgZD0iTTE0MC40NSwyMi4xNWgtMi4wN1Y2aDIuMDdaIi8+PHBhdGggZmlsbD0iIzVmNjM2OCIgZGF0YS1pbms9IjEiIGQ9Ik0xNDMuODMsMTIuNDNhNS43OSw1Ljc5LDAsMCwxLDguMTYsMCw1Ljg1LDUuODUsMCwwLDEsMS42LDQuMiw1Ljg1LDUuODUsMCwwLDEtMS42LDQuMiw1Ljc5LDUuNzksMCwwLDEtOC4xNiwwLDUuODUsNS44NSwwLDAsMS0xLjYtNC4yQTUuODUsNS44NSwwLDAsMSwxNDMuODMsMTIuNDNabTEuNTQsNy4xYTMuNDksMy40OSwwLDAsMCw1LjA3LDAsNCw0LDAsMCwwLDEuMDctMi45LDQsNCwwLDAsMC0xLjA3LTIuOSwzLjQ5LDMuNDksMCwwLDAtNS4wNywwLDQsNCwwLDAsMC0xLjA3LDIuOUE0LDQsMCwwLDAsMTQ1LjM4LDE5LjUyWiIvPjxwYXRoIGZpbGw9IiM1ZjYzNjgiIGRhdGEtaW5rPSIxIiBkPSJNMTY1LjA2LDIyLjE1aC0yVjIwLjYySDE2M0EzLjg1LDMuODUsMCwwLDEsMTYxLjU0LDIyYTQuMDgsNC4wOCwwLDAsMS0yLjA1LjU1LDMuODksMy44OSwwLDAsMS0zLjE0LTEuMjYsNSw1LDAsMCwxLTEuMDctMy4zOFYxMS4xMWgyLjA3djYuNDJxMCwzLjA5LDIuNzMsMy4wOWEyLjU0LDIuNTQsMCwwLDAsMi4xLTEsMy43NywzLjc3LDAsMCwwLC44MS0yLjM5VjExLjExaDIuMDdaIi8+PHBhdGggZmlsbD0iIzVmNjM2OCIgZGF0YS1pbms9IjEiIGQ9Ik0xNzIuMDksMjIuNTFhNC44Niw0Ljg2LDAsMCwxLTMuNy0xLjY5LDYsNiwwLDAsMS0xLjU1LTQuMTksNiw2LDAsMCwxLDEuNTUtNC4xOSw0Ljg2LDQuODYsMCwwLDEsMy43LTEuNjksNC42OSw0LjY5LDAsMCwxLDIuMjYuNTQsMy44MywzLjgzLDAsMCwxLDEuNSwxLjM1aC4wOWwtLjA5LTEuNTNWNmgyLjA3VjIyLjE1aC0yVjIwLjYyaC0uMDlhMy44MywzLjgzLDAsMCwxLTEuNSwxLjM1QTQuNjksNC42OSwwLDAsMSwxNzIuMDksMjIuNTFabS4zNC0xLjg5YTMuMywzLjMsMCwwLDAsMi40OS0xLjA4LDQuMDUsNC4wNSwwLDAsMCwxLTIuOTEsNC4wNSw0LjA1LDAsMCwwLTEtMi45MSwzLjM4LDMuMzgsMCwwLDAtNSwwLDQsNCwwLDAsMC0xLDIuOSw0LDQsMCwwLDAsMSwyLjlBMy4zLDMuMywwLDAsMCwxNzIuNDMsMjAuNjJaIi8+PC9zdmc+","dark":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODEgMjgiPjxwYXRoIGZpbGw9IiNlYTQzMzUiIGQ9Ik0yMS44NSw3LjQxbDEsMCwyLjg1LTIuODUuMTQtMS4yMUExMi44MSwxMi44MSwwLDAsMCw1LDkuNmExLjU1LDEuNTUsMCwwLDEsMS0uMDZsNS43LS45NHMuMjktLjQ4LjQ0LS40NWE3LjExLDcuMTEsMCwwLDEsOS43My0uNzRaIi8+PHBhdGggZmlsbD0iIzQyODVmNCIgZD0iTTI5Ljc2LDkuNmExMi44NCwxMi44NCwwLDAsMC0zLjg3LTYuMjRsLTQsNEE3LjExLDcuMTEsMCwwLDEsMjQuNSwxM3YuNzFhMy41NiwzLjU2LDAsMSwxLDAsNy4xMkgxNy4zOGwtLjcxLjcydjQuMjdsLjcxLjcxSDI0LjVBOS4yNiw5LjI2LDAsMCwwLDI5Ljc2LDkuNloiLz48cGF0aCBmaWxsPSIjMzRhODUzIiBkPSJNMTAuMjUsMjYuNDloNy4xMnYtNS43SDEwLjI1YTMuNTQsMy41NCwwLDAsMS0xLjQ3LS4zMmwtMSwuMzFMNC45MSwyMy42M2wtLjI1LDFBOS4yMSw5LjIxLDAsMCwwLDEwLjI1LDI2LjQ5WiIvPjxwYXRoIGZpbGw9IiNmYmJjMDUiIGQ9Ik0xMC4yNSw4QTkuMjYsOS4yNiwwLDAsMCw0LjY2LDI0LjZsNC4xMy00LjEzYTMuNTYsMy41NiwwLDEsMSw0LjcxLTQuNzFsNC4xMy00LjEzQTkuMjUsOS4yNSwwLDAsMCwxMC4yNSw4WiIvPjxwYXRoIGZpbGw9IiNlNmU5ZjIiIGQ9Ik01Mi43OSwyMi41MWE5LjExLDkuMTEsMCwwLDEtNi42LTIuNzEsOC44LDguOCwwLDAsMS0yLjc3LTYuNTIsOC44MSw4LjgxLDAsMCwxLDIuNzctNi41MkE5LjExLDkuMTEsMCwwLDEsNTIuNzksNGE4Ljg0LDguODQsMCwwLDEsNi4zMywyLjU1TDU3LjM0LDguMzZhNi40MSw2LjQxLDAsMCwwLTQuNTUtMS44LDYuMzQsNi4zNCwwLDAsMC00LjcsMiw2LjUzLDYuNTMsMCwwLDAtMS45Myw0Ljc1QTYuNTMsNi41MywwLDAsMCw0OC4wOSwxOGE2LjcxLDYuNzEsMCwwLDAsOS4zNi4xMUE1LjMyLDUuMzIsMCwwLDAsNTguODIsMTVoLTZWMTIuNDRoOC40OUE4LjEyLDguMTIsMCwwLDEsNjEuNDEsMTRhOCw4LDAsMCwxLTIuMTksNS45QTguNTEsOC41MSwwLDAsMSw1Mi43OSwyMi41MVptMTkuNzQtMS43YTYuMTIsNi4xMiwwLDAsMS04LjQ3LDAsNS43LDUuNywwLDAsMS0xLjczLTQuMjUsNS43MSw1LjcxLDAsMCwxLDEuNzMtNC4yNSw2LjEzLDYuMTMsMCwwLDEsOC40NywwLDUuNzEsNS43MSwwLDAsMSwxLjczLDQuMjVBNS43LDUuNywwLDAsMSw3Mi41MiwyMC44MVptLTYuNi0xLjY3YTMuMjQsMy4yNCwwLDAsMCw0LjczLDAsMy41NiwzLjU2LDAsMCwwLDEtMi41OCwzLjU3LDMuNTcsMCwwLDAtMS0yLjU5LDMuMjksMy4yOSwwLDAsMC00Ljc1LDAsMy41NywzLjU3LDAsMCwwLTEsMi41OUEzLjU2LDMuNTYsMCwwLDAsNjUuOTIsMTkuMTRabTE5LjYyLDEuNjdhNi4xMiw2LjEyLDAsMCwxLTguNDcsMCw1LjcsNS43LDAsMCwxLTEuNzMtNC4yNSw1LjcxLDUuNzEsMCwwLDEsMS43My00LjI1LDYuMTIsNi4xMiwwLDAsMSw4LjQ3LDAsNS43MSw1LjcxLDAsMCwxLDEuNzMsNC4yNUE1LjcsNS43LDAsMCwxLDg1LjU1LDIwLjgxWm0tNi42LTEuNjdhMy4yNCwzLjI0LDAsMCwwLDQuNzMsMCwzLjU2LDMuNTYsMCwwLDAsMS0yLjU4LDMuNTcsMy41NywwLDAsMC0xLTIuNTksMy4yOSwzLjI5LDAsMCwwLTQuNzUsMCwzLjU3LDMuNTcsMCwwLDAtMSwyLjU5QTMuNTYsMy41NiwwLDAsMCw3OC45NCwxOS4xNFptMTUuMTYsOC43MWE1LjI0LDUuMjQsMCwwLDEtMy4zMy0xLjA2LDYuMTMsNi4xMywwLDAsMS0xLjk0LTIuNDZsMi4yOC0uOTVhMy44NCwzLjg0LDAsMCwwLDEuMTMsMS40OSwyLjg1LDIuODUsMCwwLDAsMS44Ny42MywzLDMsMCwwLDAsMi4zMy0uOUEzLjY1LDMuNjUsMCwwLDAsOTcuMjgsMjJ2LS44NmgtLjA5YTMuODEsMy44MSwwLDAsMS0zLjEzLDEuMzUsNS40Myw1LjQzLDAsMCwxLTQtMS43NCw1Ljc1LDUuNzUsMCwwLDEtMS43MS00LjE5LDUuODEsNS44MSwwLDAsMSwxLjcxLTQuMjIsNS40Miw1LjQyLDAsMCwxLDQtMS43NUE0LjMsNC4zLDAsMCwxLDk1LjksMTFhMy43LDMuNywwLDAsMSwxLjMuOTVoLjA5VjExaDIuNDhWMjEuNjVhNi4yMSw2LjIxLDAsMCwxLTEuNTksNC42NUE1LjYsNS42LDAsMCwxLDk0LjExLDI3Ljg1Wm0uMTgtNy42OGEyLjkxLDIuOTEsMCwwLDAsMi4yNi0xLDMuNywzLjcsMCwwLDAsLjkxLTIuNTZBMy43OCwzLjc4LDAsMCwwLDk2LjU1LDE0YTIuOSwyLjksMCwwLDAtMi4yNi0xLDMuMDksMy4wOSwwLDAsMC0yLjM0LDEsMy42NSwzLjY1LDAsMCwwLTEsMi41OSwzLjU4LDMuNTgsMCwwLDAsMSwyLjU2QTMuMSwzLjEsMCwwLDAsOTQuMjksMjAuMTdabTkuODktMTUuNVYyMi4xNWgtMi42MVY0LjY3Wm03LjE2LDE3Ljg0YTUuNjgsNS42OCwwLDAsMS00LjIxLTEuNzEsNS43OSw1Ljc5LDAsMCwxLTEuNjktNC4yNCw1Ljg2LDUuODYsMCwwLDEsMS42My00LjI4LDUuMzYsNS4zNiwwLDAsMSw0LTEuNjcsNS4wNSw1LjA1LDAsMCwxLDIsLjM5LDQuNzEsNC43MSwwLDAsMSwxLjUzLDEsNyw3LDAsMCwxLDEsMS4yMSw3LjE1LDcuMTUsMCwwLDEsLjU5LDEuMTdsLjI3LjY4LTgsMy4yOWEzLDMsMCwwLDAsMi44OCwxLjgsMy40MSwzLjQxLDAsMCwwLDIuOTMtMS42NWwyLDEuMzVhNi41OSw2LjU5LDAsMCwxLTEuOTIsMS44MkE1LjQ0LDUuNDQsMCwwLDEsMTExLjM0LDIyLjUxWk0xMDgsMTYuMzhsNS4zMi0yLjIxYTEuODQsMS44NCwwLDAsMC0uODMtLjkxLDIuNzEsMi43MSwwLDAsMC0xLjM3LS4zNSwzLjA5LDMuMDksMCwwLDAtMi4xNS45NUEzLjE3LDMuMTcsMCwwLDAsMTA4LDE2LjM4WiIvPjxwYXRoIGZpbGw9IiNlNmU5ZjIiIGQ9Ik0xMzAuMTMsMjIuNTFhOC4yNCw4LjI0LDAsMCwxLTguMzgtOC40Myw4LjI0LDguMjQsMCwwLDEsOC4zOC04LjQzLDcuNDYsNy40NiwwLDAsMSw1LjkzLDIuNjRsLTEuNDQsMS40YTUuNDQsNS40NCwwLDAsMC00LjQ4LTIuMDUsNi4xMSw2LjExLDAsMCwwLTQuNDUsMS43OCw2LjI0LDYuMjQsMCwwLDAtMS44MSw0LjY2LDYuMjQsNi4yNCwwLDAsMCwxLjgxLDQuNjYsNi4xMSw2LjExLDAsMCwwLDQuNDUsMS43OCw2LjM2LDYuMzYsMCwwLDAsNS0yLjM0bDEuNDQsMS40NGE3Ljg2LDcuODYsMCwwLDEtMi43NywyLjExQTguNDgsOC40OCwwLDAsMSwxMzAuMTMsMjIuNTFaIi8+PHBhdGggZmlsbD0iI2U2ZTlmMiIgZD0iTTE0MC40NSwyMi4xNWgtMi4wN1Y2aDIuMDdaIi8+PHBhdGggZmlsbD0iI2U2ZTlmMiIgZD0iTTE0My44MywxMi40M2E1Ljc5LDUuNzksMCwwLDEsOC4xNiwwLDUuODUsNS44NSwwLDAsMSwxLjYsNC4yLDUuODUsNS44NSwwLDAsMS0xLjYsNC4yLDUuNzksNS43OSwwLDAsMS04LjE2LDAsNS44NSw1Ljg1LDAsMCwxLTEuNi00LjJBNS44NSw1Ljg1LDAsMCwxLDE0My44MywxMi40M1ptMS41NCw3LjFhMy40OSwzLjQ5LDAsMCwwLDUuMDcsMCw0LDQsMCwwLDAsMS4wNy0yLjksNCw0LDAsMCwwLTEuMDctMi45LDMuNDksMy40OSwwLDAsMC01LjA3LDAsNCw0LDAsMCwwLTEuMDcsMi45QTQsNCwwLDAsMCwxNDUuMzgsMTkuNTJaIi8+PHBhdGggZmlsbD0iI2U2ZTlmMiIgZD0iTTE2NS4wNiwyMi4xNWgtMlYyMC42MkgxNjNBMy44NSwzLjg1LDAsMCwxLDE2MS41NCwyMmE0LjA4LDQuMDgsMCwwLDEtMi4wNS41NSwzLjg5LDMuODksMCwwLDEtMy4xNC0xLjI2LDUsNSwwLDAsMS0xLjA3LTMuMzhWMTEuMTFoMi4wN3Y2LjQycTAsMy4wOSwyLjczLDMuMDlhMi41NCwyLjU0LDAsMCwwLDIuMS0xLDMuNzcsMy43NywwLDAsMCwuODEtMi4zOVYxMS4xMWgyLjA3WiIvPjxwYXRoIGZpbGw9IiNlNmU5ZjIiIGQ9Ik0xNzIuMDksMjIuNTFhNC44Niw0Ljg2LDAsMCwxLTMuNy0xLjY5LDYsNiwwLDAsMS0xLjU1LTQuMTksNiw2LDAsMCwxLDEuNTUtNC4xOSw0Ljg2LDQuODYsMCwwLDEsMy43LTEuNjksNC42OSw0LjY5LDAsMCwxLDIuMjYuNTQsMy44MywzLjgzLDAsMCwxLDEuNSwxLjM1aC4wOWwtLjA5LTEuNTNWNmgyLjA3VjIyLjE1aC0yVjIwLjYyaC0uMDlhMy44MywzLjgzLDAsMCwxLTEuNSwxLjM1QTQuNjksNC42OSwwLDAsMSwxNzIuMDksMjIuNTFabS4zNC0xLjg5YTMuMywzLjMsMCwwLDAsMi40OS0xLjA4LDQuMDUsNC4wNSwwLDAsMCwxLTIuOTEsNC4wNSw0LjA1LDAsMCwwLTEtMi45MSwzLjM4LDMuMzgsMCwwLDAtNSwwLDQsNCwwLDAsMC0xLDIuOSw0LDQsMCwwLDAsMSwyLjlBMy4zLDMuMywwLDAsMCwxNzIuNDMsMjAuNjJaIi8+PC9zdmc+"},"generic":{"w":64,"h":64,"light":"data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjQgNjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNWQ2NjdhIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZGF0YS1zdHJva2U9IjEiPjxyZWN0IHg9IjEwIiB5PSI4IiB3aWR0aD0iNDQiIGhlaWdodD0iMTQiIHJ4PSIzIi8+PHJlY3QgeD0iMTAiIHk9IjI1IiB3aWR0aD0iNDQiIGhlaWdodD0iMTQiIHJ4PSIzIi8+PHJlY3QgeD0iMTAiIHk9IjQyIiB3aWR0aD0iNDQiIGhlaWdodD0iMTQiIHJ4PSIzIi8+PGNpcmNsZSBjeD0iMTgiIGN5PSIxNSIgcj0iMS42IiBmaWxsPSIjMWQ5YTZjIiBzdHJva2U9Im5vbmUiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjMyIiByPSIxLjYiIGZpbGw9IiMxZDlhNmMiIHN0cm9rZT0ibm9uZSIvPjxjaXJjbGUgY3g9IjE4IiBjeT0iNDkiIHI9IjEuNiIgZmlsbD0iI2Q5OGEwYiIgc3Ryb2tlPSJub25lIi8+PHBhdGggZD0iTTMwIDE1aDE2TTMwIDMyaDE2TTMwIDQ5aDE2Ii8+PC9zdmc+","dark":"data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNjQgNjQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOWFhM2I4IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgZGF0YS1zdHJva2U9IjEiPjxyZWN0IHg9IjEwIiB5PSI4IiB3aWR0aD0iNDQiIGhlaWdodD0iMTQiIHJ4PSIzIi8+PHJlY3QgeD0iMTAiIHk9IjI1IiB3aWR0aD0iNDQiIGhlaWdodD0iMTQiIHJ4PSIzIi8+PHJlY3QgeD0iMTAiIHk9IjQyIiB3aWR0aD0iNDQiIGhlaWdodD0iMTQiIHJ4PSIzIi8+PGNpcmNsZSBjeD0iMTgiIGN5PSIxNSIgcj0iMS42IiBmaWxsPSIjMWQ5YTZjIiBzdHJva2U9Im5vbmUiLz48Y2lyY2xlIGN4PSIxOCIgY3k9IjMyIiByPSIxLjYiIGZpbGw9IiMxZDlhNmMiIHN0cm9rZT0ibm9uZSIvPjxjaXJjbGUgY3g9IjE4IiBjeT0iNDkiIHI9IjEuNiIgZmlsbD0iI2Q5OGEwYiIgc3Ryb2tlPSJub25lIi8+PHBhdGggZD0iTTMwIDE1aDE2TTMwIDMyaDE2TTMwIDQ5aDE2Ii8+PC9zdmc+"}};
+const DEFAULT_PRESET='Three tier (web, app, data)';
+const STEPS=[{n:1,l:'Cloud'},{n:2,l:'Network'},{n:3,l:'Zones'},{n:4,l:'Tiers'},{n:5,l:'Existing networks'},{n:6,l:'Review & export'}];
 
 /* ===================== state ===================== */
-let S={cloud:'aws',addr:'10.0.0.0',pfx:16,az:3,futureAz:false,contig:true,growth:50,existing:'',mapMode:'prop',routing:true,tab:'terraform',
-  tiers:JSON.parse(JSON.stringify(PRESETS['Three tier (web, app, data)'].tiers))};
+const defaultState=()=>({cloud:'aws',addr:'10.0.0.0',pfx:16,az:3,futureAz:false,contig:true,growth:50,existing:'',mapMode:'prop',routing:true,tab:'terraform',step:1,view:'guided',
+  tiers:JSON.parse(JSON.stringify(PRESETS[DEFAULT_PRESET].tiers))});
+let S=defaultState();
 const $=id=>document.getElementById(id);
 
 /* ===================== planner engine ===================== */
@@ -570,13 +719,18 @@ let R=null;
 function render(){
   R=plan();const C=R.cloud;
   $('cloudHint').innerHTML=`${C.hint} <a href="${C.docs}" target="_blank" rel="noopener">docs</a>`;
-  $('azField').style.display=C.zones?'':'none';
+  $('azField').style.display=C.zones?'':'none';document.querySelector('.step[data-step="3"]').style.display=C.zones?'':'none';
   $('pfx').min=C.vpcMin;$('pfx').max=C.vpcMax;
   const addrEl=$('addr');addrEl.classList.toggle('bad',!!R.errors.find(e=>e.startsWith('Enter')));
   if(R.vpc){const v=R.vpc;$('capL').innerHTML=`<b>${fmt(size(v.prefix))}</b> addresses in ${cidrStr(v.base,v.prefix)}`;$('capR').innerHTML=`${n2ip(v.base)} - ${n2ip(v.base+size(v.prefix)-1)}`;
     $('addrHint').innerHTML=v.misaligned?`<span style="color:var(--amber)">Snapped ${n2ip(v.typed)} to the /${v.prefix} boundary ${n2ip(v.base)}.</span> <a href="#" id="snap">Use it</a>`:'';
     const sn=$('snap');if(sn)sn.onclick=e=>{e.preventDefault();S.addr=n2ip(v.base);$('addr').value=S.addr;render();};}
-  renderTiers();renderKpis();renderMap();renderZones();renderChecks();renderTable();renderExport();renderTeach();saveHash();
+  $('netWord').textContent=C.zones?(S.cloud==='aws'?'(VPC)':'(network)'):S.cloud==='azure'?'(VNet address space)':'(address plan - a GCP VPC has no CIDR of its own)';
+  renderPresets();renderTiers();renderKpis();renderMap();renderZones();renderChecks();renderTable();renderExport();renderTeach();renderBlueprint();renderStepper();renderSummary();saveHash();
+}
+function renderPresets(){
+  const pr=$('presets');pr.innerHTML='';const cur=JSON.stringify(S.tiers.map(t=>[t.n,t.r,t.m,+t.v]));
+  Object.entries(PRESETS).forEach(([k,p])=>{const b=document.createElement('button');b.className='preset'+(JSON.stringify(p.tiers.map(t=>[t.n,t.r,t.m,+t.v]))===cur?' on':'');b.innerHTML=`<b>${esc(k)}</b><small>${esc(p.d)}</small>`;b.onclick=()=>{S.tiers=JSON.parse(JSON.stringify(p.tiers));render();toast('Preset applied - edit the tiers below');};pr.appendChild(b);});
 }
 function renderTiers(){
   const box=$('tiers');box.innerHTML='';
@@ -590,7 +744,7 @@ function renderTiers(){
         <div class="val">${t.m==='prefix'?`<span>/</span><input type="number" data-k="v" min="${S.pfx}" max="${C.minPrefix}" value="${t.v}">`:`<input type="number" data-k="v" min="1" value="${t.v}" title="hosts per ${C.zones?'zone':'subnet'}">`}</div>
       </div>
       <div class="sub">${t.m==='hosts'?`<b>${fmt(+t.v)} hosts</b> per ${C.zones?'zone':'subnet'} + ${S.growth}% growth → <b>/${p}</b> · `:''}<b>${fmt(size(p)-C.reserved)}</b> usable each · ${ROLES[t.r].d}</div>`;
-    d.querySelectorAll('[data-k]').forEach(el=>el.addEventListener(el.tagName==='SELECT'?'change':'input',e=>{const k=el.dataset.k;let val=el.value;if(k==='v')val=+val;if(k==='m'){t.m=val;t.v=val==='hosts'?Math.max(1,size(+t.v)-CLOUDS[S.cloud].reserved):hostsToPrefix(+t.v||1,CLOUDS[S.cloud].reserved,S.growth);render();return;}t[k]=val;if(k==='v'||k==='r')render();else{renderKpis();renderMap();renderZones();renderTable();renderExport();saveHash();}}));
+    d.querySelectorAll('[data-k]').forEach(el=>el.addEventListener(el.tagName==='SELECT'?'change':'input',e=>{const k=el.dataset.k;let val=el.value;if(k==='v')val=+val;if(k==='m'){t.m=val;t.v=val==='hosts'?Math.max(1,size(+t.v)-CLOUDS[S.cloud].reserved):hostsToPrefix(+t.v||1,CLOUDS[S.cloud].reserved,S.growth);render();return;}t[k]=val;if(k==='v'||k==='r')render();else{R=plan();renderKpis();renderMap();renderZones();renderTable();renderExport();renderBlueprint();renderPresets();saveHash();}}));
     d.querySelector('.del').onclick=()=>{S.tiers.splice(i,1);render();};box.appendChild(d);});
 }
 function renderKpis(){
@@ -650,6 +804,7 @@ function renderExport(){
 }
 function renderTeach(){
   const C=R.cloud;const yt=(id,t)=>`<div class="vid" data-id="${id}"><img loading="lazy" src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt=""><div class="play">▶ ${t}</div></div>`;
+  $('teach0').innerHTML=`<b>Why the cloud comes first.</b> Each provider takes a different number of addresses out of every subnet (${CLOUDS.aws.reserved} on AWS, ${CLOUDS.azure.reserved} on Azure, ${CLOUDS.gcp.reserved} on Google Cloud), sets a different smallest subnet, and treats zones differently: AWS subnets live in one Availability Zone, Azure subnets span the zones of a region, Google Cloud subnets are regional. The planner applies those rules to everything that follows.`;
   $('teach1').innerHTML=`<b>Why this matters.</b> The CIDR you pick here is the one decision you cannot change cheaply later - every subnet, peering and VPN is derived from it. Use a private range (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), pick a /16 unless you have a reason not to, and make it <b>unique across your whole organisation</b> so that any two networks can be connected later. ${C.name} removes ${C.reserved} addresses from every subnet for its own use, which is why a /24 gives ${256-C.reserved} hosts, not 254 or 256.`+yt('KiWXRL-2TnY','What is CIDR? Calculate IP ranges for VPCs and subnets');
   $('teach2').innerHTML=`<b>Tiers, not servers.</b> Group subnets by <i>who may reach them</i>: public (has a route to the internet gateway), private (reaches out through NAT, nothing reaches in), isolated (no internet route at all - databases). Each tier gets one subnet per zone so that a zone failure takes out a copy, not a layer. Size the private tier biggest - that is where nodes, pods and Lambda ENIs live.`+yt(S.cloud==='azure'?'KjkIVgW4Dms':'43tIX7901Gs',S.cloud==='azure'?'Azure VNet, subnets, NSG and route table':'AWS VPC with public and private subnets, step by step');
   $('teach3').innerHTML=`<b>Contiguous tiers</b> let a single summary route or NACL rule cover "all private subnets" (for example one /18 instead of three /20s). <b>Growth headroom</b> stops the classic mistake of sizing for today's 40 hosts and running out when autoscaling kicks in. <b>Existing networks:</b> VPC peering and Transit Gateway refuse overlapping CIDRs outright - checking now costs nothing, rebuilding a VPC later costs a weekend.`;
@@ -663,15 +818,98 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
 
 /* ===================== state <-> url ===================== */
-function saveHash(){try{const s={c:S.cloud,a:S.addr,p:S.pfx,z:S.az,f:S.futureAz?1:0,k:S.contig?1:0,g:S.growth,e:S.existing,t:S.tiers.map(t=>[t.n,t.r,t.m,t.v]),r:S.routing?1:0};history.replaceState(null,'','#'+btoa(unescape(encodeURIComponent(JSON.stringify(s)))).replace(/=+$/,''));}catch(e){}}
-function loadHash(){try{const h=location.hash.slice(1);if(!h)return;const s=JSON.parse(decodeURIComponent(escape(atob(h))));S.cloud=s.c||'aws';S.addr=s.a||'10.0.0.0';S.pfx=+s.p||16;S.az=+s.z||3;S.futureAz=!!s.f;S.contig=s.k!==0;S.growth=+s.g||0;S.existing=s.e||'';S.routing=s.r!==0;if(Array.isArray(s.t)&&s.t.length)S.tiers=s.t.map(t=>({n:t[0],r:t[1]in ROLES?t[1]:'private',m:t[2]==='hosts'?'hosts':'prefix',v:+t[3]}));}catch(e){}}
+function saveHash(){try{const s={c:S.cloud,a:S.addr,p:S.pfx,z:S.az,f:S.futureAz?1:0,k:S.contig?1:0,g:S.growth,e:S.existing,t:S.tiers.map(t=>[t.n,t.r,t.m,t.v]),r:S.routing?1:0,s:S.step,v:S.view==='expert'?'x':'g'};history.replaceState(null,'','#'+btoa(unescape(encodeURIComponent(JSON.stringify(s)))).replace(/=+$/,''));}catch(e){}}
+function loadHash(){try{const h=location.hash.slice(1);if(!h)return false;const s=JSON.parse(decodeURIComponent(escape(atob(h))));S.cloud=s.c in CLOUDS?s.c:'aws';S.addr=s.a||'10.0.0.0';S.pfx=+s.p||16;S.az=+s.z||3;S.futureAz=!!s.f;S.contig=s.k!==0;S.growth=+s.g||0;S.existing=s.e||'';S.routing=s.r!==0;if(Array.isArray(s.t)&&s.t.length)S.tiers=s.t.map(t=>({n:t[0],r:t[1]in ROLES?t[1]:'private',m:t[2]==='hosts'?'hosts':'prefix',v:+t[3]}));
+  S.view=s.v==='x'?'expert':'guided';S.step=s.s?Math.max(1,Math.min(6,+s.s)):6;return true;}catch(e){return false;}}
+function syncInputs(){
+  $('addr').value=S.addr;$('pfx').value=S.pfx;$('futureAz').checked=S.futureAz;$('contig').checked=S.contig;$('growth').value=S.growth;$('existing').value=S.existing;$('routing').checked=S.routing;
+  const on=(id,v)=>$(id).querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===String(v)));on('cloudSeg',S.cloud);on('azSeg',S.az);on('mapMode',S.mapMode);
+}
+/* ===================== guided flow ===================== */
+const stepSkipped=n=>n===3&&!CLOUDS[S.cloud].zones;
+const visibleSteps=()=>STEPS.filter(s=>!stepSkipped(s.n));
+function setStep(n,dir){n=Math.max(1,Math.min(6,n));if(stepSkipped(n))n+=dir<0?-1:1;S.step=n;
+  document.querySelectorAll('.step').forEach(el=>el.classList.toggle('active',+el.dataset.step===n));document.body.classList.toggle('final',n===6);
+  render();const bar=$('stepbar');if(bar&&window.scrollY>bar.offsetTop)bar.scrollIntoView({behavior:'smooth',block:'start'});}
+function canAdvance(){if(S.step===2&&(!R.vpc||R.errors.some(e=>e.startsWith('Enter')))){toast('Enter a valid IPv4 address first, for example 10.0.0.0');$('addr').focus();return false;}
+  if(S.step===4&&!S.tiers.length){toast('Add at least one tier');return false;}return true;}
+function setView(v){S.view=v;document.body.classList.toggle('guided',v==='guided');$('modeBtn').textContent=v==='guided'?'Expert view':'Guided view';try{localStorage.setItem('jq-view',v)}catch(e){}
+  if(v==='guided')setStep(S.step,1);else{document.body.classList.remove('final');render();}}
+function renderStepper(){
+  const ol=$('stepper');ol.innerHTML='';const C=R.cloud;const vis=visibleSteps();
+  const sum={1:C.name,2:R.vpc?cidrStr(R.vpc.base,R.vpc.prefix):'',3:C.zones?`${R.zones} ${R.zones===1?'zone':'zones'}${S.futureAz?' + 1 reserved':''}`:'',4:`${S.tiers.length} ${S.tiers.length===1?'tier':'tiers'}`,5:R.existing.length?`${R.existing.length} ${R.existing.length===1?'network':'networks'}`:'none',6:''};
+  STEPS.forEach(s=>{const li=document.createElement('li');const state=stepSkipped(s.n)?'skip':s.n<S.step?'done':s.n===S.step?'active':'todo';li.className=state;
+    li.innerHTML=`<span class="n">${state==='done'?'✓':vis.findIndex(x=>x.n===s.n)+1}</span><span class="s">${s.l}${state==='done'&&sum[s.n]?`: <b>${esc(sum[s.n])}</b>`:''}</span>`;
+    if(state==='done'||state==='active')li.onclick=()=>setStep(s.n,-1);ol.appendChild(li);});
+  const idx=vis.findIndex(x=>x.n===S.step)+1;document.querySelectorAll('.stepof').forEach(el=>el.textContent=`Step ${idx} of ${vis.length}`);
+  document.querySelectorAll('.step').forEach(el=>{const i=vis.findIndex(x=>x.n===+el.dataset.step);const num=el.querySelector('.num');if(num&&i>=0)num.textContent=i+1;});
+}
+function renderSummary(){
+  const C=R.cloud;const sc=review(R).score;const go=n=>`<a href="#" data-step-go="${n}">edit</a>`;
+  const items=[['Cloud',C.name,1],['Network',R.vpc?cidrStr(R.vpc.base,R.vpc.prefix)+` · ${fmt(size(R.vpc.prefix))} addresses`:'-',2]];
+  if(C.zones)items.push(['Zones',`${R.zones}${S.futureAz?' + 1 reserved':''}`,3]);
+  items.push(['Tiers',S.tiers.map(t=>`${t.n} /${R.tiers.find(x=>x.i===S.tiers.indexOf(t))?.prefix??t.v}`).join(', ')||'-',4],['Existing networks',R.existing.length?`${R.existing.length} checked · ${R.existing.filter(e=>e.hit).length} overlap`:'none listed',5],['Design score',`${sc} / 100`,null]);
+  $('summary').innerHTML=items.map(([l,v,n])=>`<div class="it"><small>${l}</small><b>${esc(v)}</b>${n?go(n):''}</div>`).join('');
+  $('summary').querySelectorAll('[data-step-go]').forEach(a=>a.onclick=e=>{e.preventDefault();setStep(+a.dataset.stepGo,-1);});
+}
+/* ===================== blueprint ===================== */
+const bpShown=new Set();
+function renderBlueprint(){
+  const svg=$('bp');const C=R.cloud;const guided=S.view==='guided';const st=guided?S.step:6;
+  const hasVpc=!!R.vpc&&!R.errors.some(e=>e.startsWith('Enter'))&&st>=2;const showLanes=hasVpc&&st>=3;const showSubs=showLanes&&st>=4&&R.subnets.length>0;const showExt=hasVpc&&st>=5&&R.existing.length>0;
+  const lanes=showLanes?(C.zones?R.slots:1):1;const tiers=R.tiers;const hasPub=showSubs&&tiers.some(t=>t.r==='public');
+  const LW=C.zones?200:420,LG=12,PAD=20,ROWH=58,ROWG=8;const TOP=hasPub?96:40;
+  const rows=showSubs?tiers.length:1;const laneTop=42;const laneH=rows*(ROWH+ROWG)+16;const freeH=showSubs&&R.free.length?34:0;
+  const vpcW=Math.max(PAD*2+lanes*LW+(lanes-1)*LG,480);const vpcH=laneTop+laneH+freeH+12;
+  const EXW=showExt?240:0;const X0=30,Y0=TOP;const W=X0+vpcW+(EXW?EXW+70:0)+30;const H=Y0+vpcH+36;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.style.maxWidth=Math.round(W*1.45)+'px';
+  const keys=new Set();let out=['<defs><pattern id="bphatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="var(--haze)"/><rect width="3" height="8" fill="var(--line)"/></pattern></defs>'];
+  let seq=0;const add=(key,html,delay,extra='')=>{keys.add(key);const isNew=!bpShown.has(key);if(isNew)seq++;out.push(isNew?`<g class="enter ${extra}" style="animation-delay:${delay}ms">${html}</g>`:`<g class="${extra}">${html}</g>`);return isNew;};
+  // region frame
+  const lg=LOGOS[S.cloud];const lgH=S.cloud==='gcp'?14:18;const lgW=Math.round(lg.w/lg.h*lgH);const dark=document.documentElement.dataset.theme==='dark';
+  add('frame',`<rect class="frame" x="${X0-14}" y="${Y0-26}" width="${vpcW+28}" height="${vpcH+40}" rx="14"/><image href="${dark?lg.dark:lg.light}" x="${X0-2}" y="${Y0-14-lgH/2-4}" width="${lgW}" height="${lgH}"/><text class="l" x="${X0+lgW+8}" y="${Y0-10}">${esc(C.name)} · ${C.zones?(S.cloud==='aws'?'region':'site'):S.cloud==='azure'?'region':'project'}</text>`,0);
+  if(!hasVpc){add('empty',`<text class="empty" x="${X0+vpcW/2}" y="${Y0+vpcH/2}" text-anchor="middle">${st<2?'Pick a cloud, then press Next - the network will appear here as you build it.':'Type a valid network address and the VPC will be drawn here.'}</text>`,100);}
+  else{
+    const v=R.vpc;const vLabel=S.cloud==='aws'?'VPC':S.cloud==='azure'?'VNet':S.cloud==='gcp'?'VPC (custom mode)':'Network';
+    const newV=add('vpc',`<rect class="vpc" x="${X0}" y="${Y0}" width="${vpcW}" height="${vpcH}" rx="12" pathLength="100"/><text class="t" x="${X0+16}" y="${Y0+24}" style="font-size:14px">${vLabel} <tspan class="m" style="font-size:13px">${cidrStr(v.base,v.prefix)}</tspan></text><text class="s" x="${X0+vpcW-16}" y="${Y0+24}" text-anchor="end">${fmt(size(v.prefix))} addresses · ${n2ip(v.base)} - ${n2ip(v.base+size(v.prefix)-1)}</text>`,80);
+    if(newV)out[out.length-1]=out[out.length-1].replace('class="vpc"','class="vpc draw"');
+    if(hasPub){const igx=X0+vpcW-150;add('igw',`<ellipse cx="${igx}" cy="${Y0-66}" rx="54" ry="18" class="badge"/><text class="t" x="${igx}" y="${Y0-62}" text-anchor="middle">Internet</text><line x1="${igx}" y1="${Y0-48}" x2="${igx}" y2="${Y0-12}" stroke="var(--muted)" stroke-width="1.5"/><rect class="badge" x="${igx-58}" y="${Y0-12}" width="116" height="24" rx="12" style="stroke:var(--blue)"/><text class="t" x="${igx}" y="${Y0+4}" text-anchor="middle" style="font-size:11px">${S.cloud==='aws'||S.cloud==='generic'?'Internet Gateway':'Public endpoint'}</text>`,1800);}
+    if(!showLanes){add('hintlanes',`<text class="s" x="${X0+vpcW/2}" y="${Y0+laneTop+laneH/2}" text-anchor="middle" style="font-size:12px">${C.zones?'Next: choose how many zones - each one becomes a column here.':'Next: add the tiers - each one becomes a subnet here.'}</text>`,900);}
+    for(let z=0;z<lanes&&showLanes;z++){const lx=X0+PAD+z*(LW+LG);const fut=C.zones&&z>=R.zones;
+      add(`lane:${z}`,`<rect class="lane${fut?' future':''}" x="${lx}" y="${Y0+laneTop}" width="${LW}" height="${laneH}" rx="8"/><text class="l" x="${lx+10}" y="${Y0+laneTop+16}">${C.zones?(fut?'future zone':`${C.zoneWord} ${zoneName(z)}`):(S.cloud==='azure'?'spans all zones':'regional subnets')}</text>`,700+z*160);
+      if(!showSubs)add(`lanehint:${z}`,`<text class="s" x="${lx+LW/2}" y="${Y0+laneTop+laneH/2+8}" text-anchor="middle">${z===0?'tiers go here':''}</text>`,1300);
+      if(showSubs)tiers.forEach((t,i)=>{const s=R.subnets.find(x=>x.tier.i===t.i&&x.z===z);if(!s)return;const sx=lx+8,sy=Y0+laneTop+26+i*(ROWH+ROWG),sw=LW-16;const d=1500+i*220+z*110;
+        const by=sy+ROWH-21;const badge=fut?'':(S.cloud==='aws'||S.cloud==='generic')&&t.r==='public'&&S.routing?`<rect class="badge" x="${sx+sw-44}" y="${by}" width="36" height="16" rx="8" style="stroke:var(--amber)"/><text class="s" x="${sx+sw-26}" y="${by+11.5}" text-anchor="middle" style="fill:var(--amber);font-weight:700">NAT</text>`:(t.r==='data'||t.r==='isolated')?`<text class="s" x="${sx+sw-10}" y="${by+11.5}" text-anchor="end" style="fill:var(--green);font-weight:600">no internet route</text>`:t.r==='transit'?`<text class="s" x="${sx+sw-10}" y="${by+11.5}" text-anchor="end" style="font-weight:600">TGW attach</text>`:'';
+        const label=`${s.name} · ${s.cidr}\n${s.first} - ${s.last}\n${fmt(s.usable)} usable · ${s.reserved.length} reserved${s.future?'\n(reserved for a future zone)':''}`;
+        const isNew=add(`sn:${t.n}:${z}`,`<rect class="sn" data-b="${s.base}" data-tip="${esc(label)}" x="${sx}" y="${sy}" width="${sw}" height="${ROWH}" rx="8" fill="${t.color}" fill-opacity=".13" stroke="${t.color}"/><rect x="${sx}" y="${sy+10}" width="4" height="${ROWH-20}" rx="2" fill="${t.color}"/><text class="t" x="${sx+14}" y="${sy+20}">${esc(t.n)}</text><text class="s" x="${sx+sw-10}" y="${sy+19}" text-anchor="end" style="font-weight:700;letter-spacing:.4px">${ROLES[t.r].l.toUpperCase()}</text>${badge}<g class="${bpShown.has(`sn:${t.n}:${z}`)?'':'fade'}" style="animation-delay:${d+380}ms"><text class="m" x="${sx+14}" y="${sy+38}">${s.cidr}</text><text class="s" x="${sx+14}" y="${sy+51}">${fmt(s.usable)} usable${s.future?' · reserved':''}</text></g>`,d,fut?'future':'');});
+    }
+    if(freeH){const fy=Y0+laneTop+laneH+6;const list=R.free.map(f=>cidrStr(f.base,f.prefix));add('free',`<rect class="free" x="${X0+PAD}" y="${fy}" width="${vpcW-PAD*2}" height="26" rx="6"/><text class="s" x="${X0+PAD+10}" y="${fy+17}">free for later: ${list.slice(0,4).join(', ')}${list.length>4?` +${list.length-4} more`:''} · ${Math.round((R.total-R.used)/R.total*100)}% of the network</text>`,2600);}
+    if(showExt){const ex=R.existing.slice(0,6);const bx=X0+vpcW+70;ex.forEach((e,i)=>{const by=Y0+8+i*54;const hit=!!e.hit;const bad=!!e.bad;
+      add(`ex:${e.raw}`,`<path class="link${hit?' hit':''}" d="M${X0+vpcW} ${Y0+vpcH/2} C ${X0+vpcW+35} ${Y0+vpcH/2}, ${bx-35} ${by+22}, ${bx} ${by+22}"/><rect class="ext${hit?' hit':''}" x="${bx}" y="${by}" width="${EXW}" height="44" rx="8"/><text class="t" x="${bx+12}" y="${by+18}" style="font-size:11.5px">${esc(e.label||(bad?'cannot parse':'existing network'))}</text><text class="m" x="${bx+12}" y="${by+35}">${esc(e.raw)}</text><text class="s" x="${bx+EXW-10}" y="${by+35}" text-anchor="end" style="fill:${hit?'var(--red)':bad?'var(--amber)':'var(--green)'};font-weight:700">${bad?'?':hit?'OVERLAPS':'clear'}</text>`,2300+i*150);});
+      if(R.existing.length>6)add('exmore',`<text class="s" x="${bx}" y="${Y0+8+6*54}">+${R.existing.length-6} more in the design review</text>`,3200);}
+  }
+  svg.innerHTML=out.join('');keys.forEach(k=>bpShown.add(k));
+  svg.querySelectorAll('rect.sn').forEach(r=>{r.addEventListener('mousemove',e=>showTip(e,r.dataset.tip));r.addEventListener('mouseleave',hideTip);r.addEventListener('click',()=>{const row=document.querySelector(`tr[data-b="${r.dataset.b}"]`);if(row&&row.offsetParent){row.scrollIntoView({behavior:'smooth',block:'center'});row.style.background='var(--haze)';setTimeout(()=>row.style.background='',900);}else if(guided&&S.step<6)toast('Finish the steps to see the full table and exports');});});
+  // stats + note
+  const sub=R.subnets.filter(s=>!s.future);const usable=sub.reduce((a,s)=>a+s.usable,0);const pct=R.total?Math.round(R.used/R.total*100):0;const sc=showSubs?review(R).score:null;
+  $('bpstats').innerHTML=hasVpc?`<span><b>${fmt(R.total)}</b> addresses</span>${showSubs?`<span><b>${sub.length}</b> subnets</span><span><b>${fmt(usable)}</b> usable hosts</span><span><b>${pct}%</b> allocated</span><span class="score${sc<60?' bad':sc<85?' low':''}"><b>${sc}</b> / 100 design score</span>`:''}${showExt?`<span><b>${R.existing.filter(e=>e.hit).length}</b> overlaps of ${R.existing.length}</span>`:''}`:'';
+  $('bpNote').textContent=!hasVpc?'Every answer adds a piece':showSubs?'Hover a subnet for its range':'Keep going - tiers appear as subnets';
+}
+function replayBuild(){bpShown.clear();renderBlueprint();toast('Replaying the build');}
+function resetDesign(){const keep={view:S.view};S=defaultState();S.view=keep.view;bpShown.clear();syncInputs();setStep(1,1);toast('New design');}
 
 /* ===================== wiring ===================== */
 function seg(id,get,set){const el=$(id);el.querySelectorAll('button').forEach(b=>{b.classList.toggle('on',b.dataset.v===String(get()));b.onclick=()=>{set(b.dataset.v);el.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));render();};});}
 function init(){
-  loadHash();
-  $('addr').value=S.addr;$('pfx').value=S.pfx;$('futureAz').checked=S.futureAz;$('contig').checked=S.contig;$('growth').value=S.growth;$('existing').value=S.existing;$('routing').checked=S.routing;
+  const fromHash=loadHash();
+  if(!fromHash){try{const v=localStorage.getItem('jq-view');if(v==='expert'||v==='guided')S.view=v;}catch(e){}}
+  syncInputs();
   seg('cloudSeg',()=>S.cloud,v=>{S.cloud=v;const C=CLOUDS[v];if(S.pfx<C.vpcMin)S.pfx=C.vpcMin;if(S.pfx>C.vpcMax)S.pfx=C.vpcMax;$('pfx').value=S.pfx;});
+  document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{if(b.dataset.go==='next'){if(!canAdvance())return;setStep(S.step+1,1);}else setStep(S.step-1,-1);});
+  $('quick').querySelectorAll('button').forEach(b=>b.onclick=()=>{S.addr=b.dataset.a;S.pfx=+b.dataset.p;$('addr').value=S.addr;$('pfx').value=S.pfx;render();});
+  $('modeBtn').onclick=()=>setView(S.view==='guided'?'expert':'guided');
+  $('replayBtn').onclick=replayBuild;$('replayBtn2').onclick=replayBuild;$('resetBtn').onclick=resetDesign;
+  $('shareBtn2').onclick=()=>$('shareBtn').click();
   seg('azSeg',()=>S.az,v=>S.az=+v);seg('mapMode',()=>S.mapMode,v=>S.mapMode=v);
   $('addr').addEventListener('input',e=>{S.addr=e.target.value;render();});
   $('pfx').addEventListener('input',e=>{S.pfx=+e.target.value||16;render();});
@@ -679,7 +917,6 @@ function init(){
   $('growth').addEventListener('input',e=>{S.growth=+e.target.value||0;render();});$('existing').addEventListener('input',e=>{S.existing=e.target.value;render();});
   $('routing').onchange=e=>{S.routing=e.target.checked;renderExport();saveHash();};
   $('addTier').onclick=()=>{S.tiers.push({n:'tier-'+(S.tiers.length+1),r:'private',m:'prefix',v:24});render();};
-  const pr=$('presets');Object.keys(PRESETS).forEach(k=>{const b=document.createElement('button');b.className='chip';b.textContent=k;b.onclick=()=>{S.tiers=JSON.parse(JSON.stringify(PRESETS[k].tiers));render();toast('Preset applied');};pr.appendChild(b);});
   $('copyCode').onclick=()=>navigator.clipboard.writeText($('code').textContent).then(()=>toast('Copied'));
   $('dlCode').onclick=()=>{const t=TABS[S.tab];const name=`vpc-plan-${S.addr.replace(/\./g,'-')}-${S.pfx}.${S.tab==='terraform'&&S.cloud!=='aws'?'sh':t.ext}`;const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([$('code').textContent],{type:'text/plain'}));a.download=name;a.click();toast('Downloaded '+name);};
   $('copyTable').onclick=()=>navigator.clipboard.writeText(md(R)).then(()=>toast('Markdown table copied'));
@@ -688,9 +925,9 @@ function init(){
   const th=localStorage.getItem('jq-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');setTheme(th);
   $('themeBtn').onclick=()=>setTheme(document.documentElement.dataset.theme==='dark'?'light':'dark');
   const teach=localStorage.getItem('jq-teach')==='1';setTeach(teach);$('teachBtn').onclick=()=>setTeach(document.documentElement.dataset.teach!=='1');
-  render();
+  setView(S.view);
 }
-function setTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('jq-theme',t)}catch(e){}}
+function setTheme(t){document.documentElement.dataset.theme=t;$('themeBtn').textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('jq-theme',t)}catch(e){}if(R)renderBlueprint();}
 function setTeach(on){document.documentElement.dataset.teach=on?'1':'0';$('teachBtn').classList.toggle('on',on);try{localStorage.setItem('jq-teach',on?'1':'0')}catch(e){}}
 init();
 </script>

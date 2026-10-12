@@ -10,7 +10,24 @@
 - **Read the story behind it:** https://jhooq.com/vpc-subnet-planner-free-tool-aws-azure-gcp/
 - **One file, no build:** [`index.html`](index.html) is the entire tool. Clone and open it, or `node scripts/serve.js`.
 
-![VPC Subnet Planner - three-tier AWS plan in 10.0.0.0/16 across three Availability Zones](docs/img/planner-hero-light.png)
+![VPC Subnet Planner - the tiers step with the blueprint assembling a three-tier AWS plan underneath](docs/img/planner-hero-light.png)
+
+## How it feels
+
+The planner asks one question at a time and draws the network underneath as you answer, so a first-time visitor is never looking at every control at once:
+
+1. **Where are you building?** AWS, Azure, Google Cloud or a data centre (official logos, one line on what each one means for subnets).
+2. **Which address space?** Type a CIDR or pick a common one. The VPC box draws itself with its range.
+3. **How many zones?** Each zone becomes a column. Skipped on Azure and Google Cloud, where subnets are not zonal.
+4. **What goes inside?** Pick a layout, edit the tiers. Subnets drop into each zone column one by one, named first, CIDR and usable count a moment later, with NAT and "no internet route" badges.
+5. **What must it not collide with?** Paste existing networks; each one appears beside the VPC with a clear or overlaps line.
+6. **Your design.** Summary with edit links, share link, replay, and the full results below.
+
+![Step 1 - cloud cards with the official logos and the empty region frame](docs/img/planner-guided-step1.png)
+
+![The blueprint: VPC, three zone columns, nine subnets, free blocks, two existing networks checked](docs/img/planner-blueprint.png)
+
+**Expert view** (top right) puts every control and every result on one screen, which is the layout experienced users asked for. The choice is remembered, and the share link carries the view and the step, so a shared plan opens at the review step and replays the build for the recipient.
 
 ## Why another CIDR calculator
 
@@ -211,5 +228,7 @@ Ideas collected from the first readers - open an issue if you want one of them s
 ## Contributing and licence
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). MIT licence - use it, fork it, embed it; a link back to https://jhooq.com/tools/vpc-subnet-planner/ is appreciated.
+
+The AWS, Microsoft Azure and Google Cloud marks are trademarks of their owners and are used here only to identify the provider you are designing for; they are not covered by the MIT licence.
 
 Built by [Rahul Wagh](https://jhooq.com/about/) - [YouTube](https://www.youtube.com/@RahulWagh) - [jhooq.com](https://jhooq.com).
