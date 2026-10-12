@@ -1,0 +1,17 @@
+{
+  "name": "vpc-subnet-planner",
+  "version": "1.1.0",
+  "description": "Visual multi-zone VPC and subnet planner for AWS, Azure and Google Cloud - single HTML file, no build, no server. Live at https://jhooq.com/tools/vpc-subnet-planner/",
+  "homepage": "https://jhooq.com/tools/vpc-subnet-planner/",
+  "repository": { "type": "git", "url": "https://github.com/rahulwagh/vpc-subnet-planner.git" },
+  "author": "Rahul Wagh (https://jhooq.com)",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/",
+    "examples": "node scripts/generate-examples.js",
+    "serve": "node scripts/serve.js"
+  },
+  "engines": { "node": ">=20" },
+  "keywords": ["vpc", "subnet", "cidr", "calculator", "planner", "aws", "azure", "gcp", "terraform", "cidrsubnet", "eks", "networking", "ipam"]
+}

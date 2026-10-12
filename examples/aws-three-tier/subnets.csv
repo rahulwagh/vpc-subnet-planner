@@ -1,0 +1,13 @@
+name,tier,role,zone,cidr,first,last,total,usable,reserved
+private-a,private,private,a,10.0.0.0/20,10.0.0.0,10.0.15.255,4096,4091,5
+private-b,private,private,b,10.0.16.0/20,10.0.16.0,10.0.31.255,4096,4091,5
+private-c,private,private,c,10.0.32.0/20,10.0.32.0,10.0.47.255,4096,4091,5
+private-d,private,private,future,10.0.48.0/20,10.0.48.0,10.0.63.255,4096,4091,5
+public-a,public,public,a,10.0.64.0/24,10.0.64.0,10.0.64.255,256,251,5
+public-b,public,public,b,10.0.65.0/24,10.0.65.0,10.0.65.255,256,251,5
+public-c,public,public,c,10.0.66.0/24,10.0.66.0,10.0.66.255,256,251,5
+public-d,public,public,future,10.0.67.0/24,10.0.67.0,10.0.67.255,256,251,5
+database-a,database,data,a,10.0.68.0/24,10.0.68.0,10.0.68.255,256,251,5
+database-b,database,data,b,10.0.69.0/24,10.0.69.0,10.0.69.255,256,251,5
+database-c,database,data,c,10.0.70.0/24,10.0.70.0,10.0.70.255,256,251,5
+database-d,database,data,future,10.0.71.0/24,10.0.71.0,10.0.71.255,256,251,5

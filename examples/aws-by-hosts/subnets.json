@@ -1,0 +1,321 @@
+{
+  "tool": "jhooq.com VPC Subnet Planner",
+  "cloud": "aws",
+  "network": "172.16.0.0/16",
+  "zones": 2,
+  "tiers": [
+    {
+      "name": "web",
+      "role": "public",
+      "prefix": 25
+    },
+    {
+      "name": "app",
+      "role": "private",
+      "prefix": 21
+    },
+    {
+      "name": "db",
+      "role": "data",
+      "prefix": 26
+    }
+  ],
+  "subnets": [
+    {
+      "name": "app-a",
+      "tier": "app",
+      "role": "private",
+      "zone": "a",
+      "cidr": "172.16.0.0/21",
+      "first": "172.16.0.0",
+      "last": "172.16.7.255",
+      "usable": 2043,
+      "reserved": [
+        {
+          "ip": "172.16.0.0",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.0.1",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.0.2",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.0.3",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.7.255",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "app-b",
+      "tier": "app",
+      "role": "private",
+      "zone": "b",
+      "cidr": "172.16.8.0/21",
+      "first": "172.16.8.0",
+      "last": "172.16.15.255",
+      "usable": 2043,
+      "reserved": [
+        {
+          "ip": "172.16.8.0",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.8.1",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.8.2",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.8.3",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.15.255",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "app-c",
+      "tier": "app",
+      "role": "private",
+      "zone": "future",
+      "cidr": "172.16.16.0/21",
+      "first": "172.16.16.0",
+      "last": "172.16.23.255",
+      "usable": 2043,
+      "reserved": [
+        {
+          "ip": "172.16.16.0",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.16.1",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.16.2",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.16.3",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.23.255",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "web-a",
+      "tier": "web",
+      "role": "public",
+      "zone": "a",
+      "cidr": "172.16.32.0/25",
+      "first": "172.16.32.0",
+      "last": "172.16.32.127",
+      "usable": 123,
+      "reserved": [
+        {
+          "ip": "172.16.32.0",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.32.1",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.32.2",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.32.3",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.32.127",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "web-b",
+      "tier": "web",
+      "role": "public",
+      "zone": "b",
+      "cidr": "172.16.32.128/25",
+      "first": "172.16.32.128",
+      "last": "172.16.32.255",
+      "usable": 123,
+      "reserved": [
+        {
+          "ip": "172.16.32.128",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.32.129",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.32.130",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.32.131",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.32.255",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "web-c",
+      "tier": "web",
+      "role": "public",
+      "zone": "future",
+      "cidr": "172.16.33.0/25",
+      "first": "172.16.33.0",
+      "last": "172.16.33.127",
+      "usable": 123,
+      "reserved": [
+        {
+          "ip": "172.16.33.0",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.33.1",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.33.2",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.33.3",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.33.127",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "db-a",
+      "tier": "db",
+      "role": "data",
+      "zone": "a",
+      "cidr": "172.16.34.0/26",
+      "first": "172.16.34.0",
+      "last": "172.16.34.63",
+      "usable": 59,
+      "reserved": [
+        {
+          "ip": "172.16.34.0",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.34.1",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.34.2",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.34.3",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.34.63",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "db-b",
+      "tier": "db",
+      "role": "data",
+      "zone": "b",
+      "cidr": "172.16.34.64/26",
+      "first": "172.16.34.64",
+      "last": "172.16.34.127",
+      "usable": 59,
+      "reserved": [
+        {
+          "ip": "172.16.34.64",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.34.65",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.34.66",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.34.67",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.34.127",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    },
+    {
+      "name": "db-c",
+      "tier": "db",
+      "role": "data",
+      "zone": "future",
+      "cidr": "172.16.34.128/26",
+      "first": "172.16.34.128",
+      "last": "172.16.34.191",
+      "usable": 59,
+      "reserved": [
+        {
+          "ip": "172.16.34.128",
+          "use": "network address"
+        },
+        {
+          "ip": "172.16.34.129",
+          "use": "VPC router"
+        },
+        {
+          "ip": "172.16.34.130",
+          "use": "Amazon DNS (Route 53 Resolver)"
+        },
+        {
+          "ip": "172.16.34.131",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "172.16.34.191",
+          "use": "network broadcast (reserved)"
+        }
+      ]
+    }
+  ],
+  "free": [
+    "172.16.35.0/24",
+    "172.16.36.0/22",
+    "172.16.40.0/21",
+    "172.16.48.0/20",
+    "172.16.64.0/18",
+    "172.16.128.0/17"
+  ]
+}

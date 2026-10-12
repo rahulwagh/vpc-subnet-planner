@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  engine-tests:
+    name: Engine tests (Node)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test test/
+      - name: Examples are up to date
+        run: |
+          node scripts/generate-examples.js
+          git diff --exit-code -- examples/ || (echo "examples/ is stale - run: node scripts/generate-examples.js" && exit 1)
+
+  terraform-validate:
+    name: Terraform validate + fmt (AWS exports)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        example: [aws-three-tier, aws-eks-cluster, aws-hub-firewall-tgw, aws-by-hosts]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.16.2"
+      - working-directory: examples/${{ matrix.example }}
+        run: |
+          terraform init -backend=false -input=false
+          terraform validate
+          terraform fmt -check -diff
+
+  shell-and-json:
+    name: Azure / gcloud scripts and JSON exports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: for f in examples/*/*.sh; do bash -n "$f" && echo "ok $f"; done
+      - run: for f in examples/*/subnets.json; do node -e 'JSON.parse(require("fs").readFileSync(process.argv[1]))' "$f" && echo "ok $f"; done

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3f6fd8"/><stop offset="1" stop-color="#7c4ddb"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="#0b0f17"/>
+  <rect x="60" y="60" width="44" height="44" rx="10" fill="url(#g)"/><text x="82" y="91" text-anchor="middle" font-size="24" font-weight="700" fill="#fff">J</text>
+  <text x="120" y="92" font-size="26" font-weight="700" fill="#e6e9f2">jhooq.com <tspan fill="#9aa3b8" font-weight="500">/ tools</tspan></text>
+  <text x="60" y="200" font-size="64" font-weight="700" fill="#ffffff">VPC Subnet Planner</text>
+  <text x="60" y="252" font-size="28" fill="#c9d0de">Design multi-zone networks visually. AWS, Azure, Google Cloud.</text>
+  <text x="60" y="296" font-size="22" fill="#9aa3b8">Address map · design review · overlap check · Terraform, CloudFormation, Azure CLI, gcloud export</text>
+  <g>
+    <rect x="60" y="360" width="300" height="110" rx="8" fill="#5b8def"/><text x="76" y="395" font-size="18" font-weight="700" fill="#fff">private-a</text><text x="76" y="422" font-size="16" fill="#fff" font-family="Consolas, monospace">10.0.0.0/20</text>
+    <rect x="364" y="360" width="300" height="110" rx="8" fill="#4d7fe6"/><text x="380" y="395" font-size="18" font-weight="700" fill="#fff">private-b</text><text x="380" y="422" font-size="16" fill="#fff" font-family="Consolas, monospace">10.0.16.0/20</text>
+    <rect x="668" y="360" width="300" height="110" rx="8" fill="#3f6fd8"/><text x="684" y="395" font-size="18" font-weight="700" fill="#fff">private-c</text><text x="684" y="422" font-size="16" fill="#fff" font-family="Consolas, monospace">10.0.32.0/20</text>
+    <rect x="972" y="360" width="20" height="110" rx="4" fill="#8b5cf6"/><rect x="996" y="360" width="20" height="110" rx="4" fill="#8b5cf6"/><rect x="1020" y="360" width="20" height="110" rx="4" fill="#8b5cf6"/>
+    <rect x="1044" y="360" width="8" height="110" rx="3" fill="#34c38f"/><rect x="1056" y="360" width="8" height="110" rx="3" fill="#34c38f"/><rect x="1068" y="360" width="8" height="110" rx="3" fill="#34c38f"/>
+    <rect x="1080" y="370" width="60" height="90" rx="6" fill="#1a2030" stroke="#252c40"/><text x="1110" y="420" text-anchor="middle" font-size="13" fill="#9aa3b8">free</text>
+  </g>
+  <text x="60" y="540" font-size="22" fill="#9aa3b8">Free. Runs in your browser. Nothing is uploaded.</text>
+  <text x="1140" y="540" text-anchor="end" font-size="22" fill="#9aa3b8">jhooq.com/tools/vpc-subnet-planner</text>
+</svg>

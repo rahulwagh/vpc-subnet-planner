@@ -1,0 +1,4 @@
+name,tier,role,zone,cidr,first,last,total,usable,reserved
+private-1,private,private,a,10.30.0.0/20,10.30.0.0,10.30.15.255,4096,4092,4
+public-1,public,public,a,10.30.16.0/24,10.30.16.0,10.30.16.255,256,252,4
+database-1,database,data,a,10.30.17.0/24,10.30.17.0,10.30.17.255,256,252,4

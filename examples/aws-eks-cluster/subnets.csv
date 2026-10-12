@@ -1,0 +1,10 @@
+name,tier,role,zone,cidr,first,last,total,usable,reserved
+nodes-pods-a,nodes-pods,private,a,10.10.0.0/19,10.10.0.0,10.10.31.255,8192,8187,5
+nodes-pods-b,nodes-pods,private,b,10.10.32.0/19,10.10.32.0,10.10.63.255,8192,8187,5
+nodes-pods-c,nodes-pods,private,c,10.10.64.0/19,10.10.64.0,10.10.95.255,8192,8187,5
+public-a,public,public,a,10.10.128.0/24,10.10.128.0,10.10.128.255,256,251,5
+public-b,public,public,b,10.10.129.0/24,10.10.129.0,10.10.129.255,256,251,5
+public-c,public,public,c,10.10.130.0/24,10.10.130.0,10.10.130.255,256,251,5
+database-a,database,data,a,10.10.132.0/26,10.10.132.0,10.10.132.63,64,59,5
+database-b,database,data,b,10.10.132.64/26,10.10.132.64,10.10.132.127,64,59,5
+database-c,database,data,c,10.10.132.128/26,10.10.132.128,10.10.132.191,64,59,5

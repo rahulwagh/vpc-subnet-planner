@@ -1,0 +1,117 @@
+{
+  "tool": "jhooq.com VPC Subnet Planner",
+  "cloud": "gcp",
+  "network": "10.30.0.0/16",
+  "zones": 1,
+  "tiers": [
+    {
+      "name": "public",
+      "role": "public",
+      "prefix": 24
+    },
+    {
+      "name": "private",
+      "role": "private",
+      "prefix": 20
+    },
+    {
+      "name": "database",
+      "role": "data",
+      "prefix": 24
+    }
+  ],
+  "subnets": [
+    {
+      "name": "private-1",
+      "tier": "private",
+      "role": "private",
+      "zone": "a",
+      "cidr": "10.30.0.0/20",
+      "first": "10.30.0.0",
+      "last": "10.30.15.255",
+      "usable": 4092,
+      "reserved": [
+        {
+          "ip": "10.30.0.0",
+          "use": "network address"
+        },
+        {
+          "ip": "10.30.0.1",
+          "use": "default gateway"
+        },
+        {
+          "ip": "10.30.15.254",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "10.30.15.255",
+          "use": "broadcast"
+        }
+      ]
+    },
+    {
+      "name": "public-1",
+      "tier": "public",
+      "role": "public",
+      "zone": "a",
+      "cidr": "10.30.16.0/24",
+      "first": "10.30.16.0",
+      "last": "10.30.16.255",
+      "usable": 252,
+      "reserved": [
+        {
+          "ip": "10.30.16.0",
+          "use": "network address"
+        },
+        {
+          "ip": "10.30.16.1",
+          "use": "default gateway"
+        },
+        {
+          "ip": "10.30.16.254",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "10.30.16.255",
+          "use": "broadcast"
+        }
+      ]
+    },
+    {
+      "name": "database-1",
+      "tier": "database",
+      "role": "data",
+      "zone": "a",
+      "cidr": "10.30.17.0/24",
+      "first": "10.30.17.0",
+      "last": "10.30.17.255",
+      "usable": 252,
+      "reserved": [
+        {
+          "ip": "10.30.17.0",
+          "use": "network address"
+        },
+        {
+          "ip": "10.30.17.1",
+          "use": "default gateway"
+        },
+        {
+          "ip": "10.30.17.254",
+          "use": "reserved for future use"
+        },
+        {
+          "ip": "10.30.17.255",
+          "use": "broadcast"
+        }
+      ]
+    }
+  ],
+  "free": [
+    "10.30.18.0/23",
+    "10.30.20.0/22",
+    "10.30.24.0/21",
+    "10.30.32.0/19",
+    "10.30.64.0/18",
+    "10.30.128.0/17"
+  ]
+}
