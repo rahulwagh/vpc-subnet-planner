@@ -1,6 +1,6 @@
 {
   "name": "vpc-subnet-planner",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Visual multi-zone VPC and subnet planner for AWS, Azure and Google Cloud - single HTML file, no build, no server. Live at https://jhooq.com/tools/vpc-subnet-planner/",
   "homepage": "https://jhooq.com/tools/vpc-subnet-planner/",
   "repository": { "type": "git", "url": "https://github.com/rahulwagh/vpc-subnet-planner.git" },

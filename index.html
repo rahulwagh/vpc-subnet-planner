@@ -12,6 +12,20 @@
 <meta property="og:url" content="https://jhooq.com/tools/vpc-subnet-planner/">
 <meta property="og:image" content="https://jhooq.com/tools/vpc-subnet-planner/og.png">
 <link rel="icon" href="/icons/favicon-32x32.png">
+<!-- same analytics tag as the rest of jhooq.com (the theme adds it to posts; this standalone page needs it explicitly) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-133303547-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-133303547-1');
+  // one event per meaningful action: which export tab, share link, copy, download, cloud picked
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var label = b.id || (b.dataset && b.dataset.v) || (b.textContent || '').trim().slice(0, 40);
+    gtag('event', 'planner_click', { planner_action: label, planner_cloud: (window.S && S.cloud) || '', planner_tab: (window.S && S.tab) || '' });
+  });
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">
@@ -493,6 +507,7 @@ body:not(.guided) .clouds b{font-size:.78rem}
     <a href="https://jhooq.com/aws-transit-gateway-step-by-step/">Transit Gateway</a>
     <a href="https://www.youtube.com/@RahulWagh">YouTube</a>
     <div style="margin-top:10px">Built by <a href="https://jhooq.com/about/">Rahul Wagh</a>. Reserved-address rules follow the current AWS, Azure and Google Cloud documentation. Your inputs stay in this tab; the share link encodes them in the URL.</div>
+    <div style="margin-top:10px">Read <a href="/vpc-subnet-planner-free-tool-aws-azure-gcp/">how I built it and what broke</a>, see it used in the <a href="/what-is-cidr-classless-inter-domain-routing/">CIDR explainer</a>, <a href="/aws-vpc-public-private-subnet-nat-internet-gateway-route-table/">AWS VPC</a>, <a href="/aws-vpc-peering-step-by-step/">VPC peering</a> and <a href="/aws-transit-gateway-step-by-step/">Transit Gateway</a> posts, or star the <a href="https://github.com/rahulwagh/vpc-subnet-planner">source on GitHub</a>.</div>
   </footer>
 </div>
 <div class="tip" id="tip"></div>

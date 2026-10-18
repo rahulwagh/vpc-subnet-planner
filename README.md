@@ -178,7 +178,7 @@ The same checks run in GitHub Actions on every push ([ci.yml](.github/workflows/
 
 ## Privacy
 
-No server, no account, no analytics inside the tool. The plan lives in the URL fragment (`#...`), which browsers never send to the server. Format of the share link: [docs/share-link.md](docs/share-link.md).
+No server, no account. The copy hosted at jhooq.com carries the site's own analytics tag (the clearly marked `<script>` block in the `<head>`; delete it when you self-host) and nothing else leaves the browser. The plan lives in the URL fragment (`#...`), which browsers never send to the server. Format of the share link: [docs/share-link.md](docs/share-link.md).
 
 ## Learn the concepts
 
