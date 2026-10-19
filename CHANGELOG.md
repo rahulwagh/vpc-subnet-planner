@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 - 2026-10-19
+
+- Design review: an information item when an existing-network entry is a /8 or larger, explaining why the free alternatives jump to another private range and asking for the ranges actually in use.
+
 ## 1.2.0 - 2026-10-12
 
 - Guided flow is the default: one question per step (cloud, address space, zones, tiers, existing networks, review) with a stepper, Back/Next, validation and a summary card with edit links. The zones step is skipped for Azure and Google Cloud. "Expert view" restores the everything-on-one-screen layout; the choice is remembered.
