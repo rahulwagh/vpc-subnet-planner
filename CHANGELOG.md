@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3 - 2026-10-19
+
+- Design review (AWS): warning when the VPC overlaps 172.17.0.0/16 (used by AWS Cloud9 and SageMaker AI; Docker on EKS nodes).
+
 ## 1.2.2 - 2026-10-19
 
 - Design review: an information item when an existing-network entry is a /8 or larger, explaining why the free alternatives jump to another private range and asking for the ranges actually in use.

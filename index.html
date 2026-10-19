@@ -652,6 +652,7 @@ function review(R){
   const hits=R.existing.filter(e=>e.hit);
   if(hits.length)add('bad',`Overlaps ${hits.length} existing network${hits.length>1?'s':''}: ${hits.map(h=>h.raw).join(', ')}`,'VPC peering and Transit Gateway cannot route overlapping ranges. Pick a different block - the table below suggests free ones.');
   else if(R.existing.length)add('ok',`No overlap with the ${R.existing.length} network${R.existing.length>1?'s':''} you listed`,'Safe to peer or attach to a Transit Gateway.');
+  if(S.cloud==='aws'){const d17={base:ip2n('172.17.0.0'),prefix:16};if(overlaps(R.vpc,d17))add('warn','Overlaps 172.17.0.0/16, which some AWS services use','AWS Cloud9 and Amazon SageMaker AI use 172.17.0.0/16, and Docker runs there on EKS nodes; EKS subnets in this range fail with "no route to host". Pick another block.');}
   const huge=R.existing.filter(e=>!e.bad&&e.prefix<=8);
   if(huge.length)add('info',`${huge.map(h=>h.raw).join(', ')} in your inventory is a whole /${huge[0].prefix} or larger`,'An entry that big blocks every block inside it (all of 10.x.x.x for a /8), so the free alternatives come from other private ranges. If the entry is a placeholder for an office or on-prem network, record the ranges actually in use instead.');
   if(S.cloud==='azure')add('info','Azure subnets span all zones','You size tiers once; zone resilience comes from how you place VMs and scale sets, not from the subnet.');
