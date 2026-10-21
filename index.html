@@ -469,6 +469,7 @@ body:not(.guided) .clouds b{font-size:.78rem}
       </ul>
 
       <h3 style="margin-top:18px;font-size:1rem">Frequently asked questions</h3>
+      <p class="hint">These are the short answers. The <a href="https://jhooq.com/tools/vpc-subnet-planner/faq/">full FAQ</a> answers the questions engineers actually ask on Stack Overflow, GitHub, Reddit and the cloud forums about subnet sizing, reserved addresses, overlap and exports, each with a screenshot of the tool solving it.</p>
       <div id="faq">
         <p><b>How many usable IP addresses does a /24 subnet have on AWS?</b><br>251. AWS reserves the first four addresses and the last address of every subnet, so a /24 (256 addresses) leaves 251 for your resources. Azure also reserves 5 (251 usable); Google Cloud reserves 4 (252 usable).</p>
         <p><b>What is the smallest subnet I can create?</b><br>/28 on AWS (16 addresses, 11 usable), /29 on Azure (8 addresses, 3 usable) and /29 on Google Cloud (8 addresses, 4 usable).</p>
